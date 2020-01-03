@@ -23,3 +23,6 @@ dirs:
 	@echo "src dir: $(src)"
 	@echo "bin dir: $(bin)"
 	@echo "compiler: $(cc)"
+
+plot:
+	Rscript ./plot/script.r
