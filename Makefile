@@ -9,9 +9,6 @@ flags = -Wall -Werror
 source = $(wildcard $(src)/*.c)
 object = $(patsubst %,$(bin)/%, $(notdir $(source:.c=.o)))
 
-$(bin)/$(pch).o: $(src)/$(pch).c $(inc)/$(pch).h
-	$(cc) -c $< -o $@ -I $(inc)
-
 $(bin)/$(target): $(object)
 	$(cc) $^ $(flags) -o $@ 
 
@@ -20,8 +17,12 @@ $(bin)/%.o: $(src)/%.c
 
 build: $(bin)/$(target)
 
+$(bin)/$(pch).o: $(src)/$(pch).c $(inc)/$(pch).h
+	$(cc) -c $< -o $@ -I $(inc)
+
+
 run: $(bin)/$(target)
-	$(bin)/$(target)
+	@$(bin)/$(target)
 
 dirs:
 	@echo "target: $(target)"
@@ -29,6 +30,9 @@ dirs:
 	@echo "binary  dir: $(bin)"
 	@echo "include dir: $(inc)"
 	@echo "c compiler: $(cc)"
+
+clean:
+	rm build/*
 
 plot:
 	Rscript ./plot/script.r

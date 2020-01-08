@@ -1,6 +1,6 @@
 #pragma once
 
-// a list of tree nodes
+// A list of tree nodes
 typedef struct lstree
 {
     int val;

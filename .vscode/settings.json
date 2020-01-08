@@ -1,6 +1,8 @@
 {
-  "files.associations": {
-    "node.h": "c",
-    "linkedlist.h": "c"
-  }
+    "files.associations": {
+        "cmath": "c",
+        "pch.h": "c"
+    },
+    "editor.tabSize": 4,
+    "C_Cpp.dimInactiveRegions": false
 }
