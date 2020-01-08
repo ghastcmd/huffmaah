@@ -1,11 +1,18 @@
 #include "linkedList.h"
 
+void* nextp_l(void* stt)
+{
+    lstree* ls = (lstree*)stt;
+    return ls->next;
+}
+
 void insert_sorted(void** stt, void* stin, inters* ine)
 {
     int cmp  = ine->compar(stin, *stt);
     int cmpe = ine->equcmp(stin, *stt);
     if (cmp < 0 || (cmp == 0 && cmpe < 0))
     {
+        puts("first");
         // * ************************ *
         // *    put stin before stt   *
         // * ************************ *
@@ -16,14 +23,9 @@ void insert_sorted(void** stt, void* stin, inters* ine)
     }
     else if (cmp == 0)
     {
-        inters tmpine;
-        memcpy(&tmpine, ine, sizeof(inters));
+        puts("second");
 
-        tmpine.compar = ine->equcmp;
-        tmpine.equcmp = ine->compar;
-
-        insert_sorted(stt, stin, &tmpine);
-        return;
+        ine->compar = ine->equcmp;
     }
 
     void* current = *stt;
@@ -37,6 +39,7 @@ void insert_sorted(void** stt, void* stin, inters* ine)
         cmpe = ine->equcmp(stin, current);
         if (cmp < 0)
         {
+            puts("final");
             // * ************************** *
             // *  stick stin where it fits  *
             // * ************************** *
@@ -46,18 +49,36 @@ void insert_sorted(void** stt, void* stin, inters* ine)
             *innextptr       = current;
             return;
         }
+        else if (cmp == 0)
+        {
+            puts("workou");
+            ine->compar = ine->equcmp;
+        }
         trail = current;
     }
 
+    puts("finale");
     void** curnxptr = ine->nextptr(current);
     *curnxptr = stin;
 }
 
-void clean_list(void* stt, void*(*nextp)(const void*))
+void print_list(void* stt, int(*get_value)(const void*), void*(*nextp)(const void*))
+{
+    void* current = stt;
+    void* tmp;
+    while((tmp = nextp(current)))
+    {
+        printf("%i ", get_value(current));
+        current = tmp;
+    }
+    printf("%i\n", get_value(current));
+}
+
+void free_list(void* stt, void*(*nextp)(const void*))
 {
     if (stt)
     {
-        clean_list(nextp(stt), nextp);
+        free_list(nextp(stt), nextp);
         free(stt);
     }
 }

@@ -13,7 +13,7 @@ $(bin)/$(target): $(object)
 	$(cc) $^ $(flags) -o $@ 
 
 $(bin)/%.o: $(src)/%.c
-	$(cc) -c $< -o $@  $(flags) -I $(inc) 
+	$(cc) -c $< -o $@ $(flags) -I $(inc) 
 
 build: $(bin)/$(target)
 
