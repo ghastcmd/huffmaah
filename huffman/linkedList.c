@@ -1,22 +1,22 @@
 #include "linkedList.h"
 
-void ListInsertSorted(void** stt, void* stin, inters* ine)
+void ListInsertSorted(void** stn, void* stin, inters* ine)
 {
-    if (!*stt)
+    if (!*stn)
     {
-        *stt = stin;
+        *stn = stin;
         return;
     }
-    int cmp  = ine->compar(stin, *stt);
-    int cmpe = ine->equcmp(stin, *stt);
+    int cmp  = ine->compar(stin, *stn);
+    int cmpe = ine->equcmp(stin, *stn);
     if (cmp < 0 || (cmp == 0 && cmpe < 0))
     {
         // * ************************ *
-        // *    put stin before stt   *
+        // *    put stin before stn   *
         // * ************************ *
         void** innextptr = ine->nextptr(stin);
-        *innextptr       = *stt;
-        *stt             = stin;
+        *innextptr       = *stn;
+        *stn             = stin;
         return;
     }
     else if (cmp == 0)
@@ -24,8 +24,8 @@ void ListInsertSorted(void** stt, void* stin, inters* ine)
         ine->compar = ine->equcmp;
     }
 
-    void* current = *stt;
-    void* trail   = *stt;
+    void* current = *stn;
+    void* trail   = *stn;
 
     void* tmp;
     while ((tmp = ine->nextp(current)))
@@ -55,9 +55,9 @@ void ListInsertSorted(void** stt, void* stin, inters* ine)
     *curnxptr = stin;
 }
 
-void ListPrint(void* stt, int(*get_value)(const void*), void*(*nextp)(const void*))
+void ListPrint(void* stn, int(*get_value)(const void*), void*(*nextp)(const void*))
 {
-    void* current = stt;
+    void* current = stn;
     void* tmp;
     while((tmp = nextp(current)))
     {
@@ -67,16 +67,18 @@ void ListPrint(void* stt, int(*get_value)(const void*), void*(*nextp)(const void
     printf("%i\n", get_value(current));
 }
 
-void ListFree(void* stt, void*(*nextp)(const void*))
+void ListFree(void* stn, void*(*nextp)(const void*))
 {
-    if (stt)
+    if (stn)
     {
-        ListFree(nextp(stt), nextp);
-        free(stt);
+        ListFree(nextp(stn), nextp);
+        free(stn);
     }
 }
 
-void* ListPop(void** stt)
+void* ListPop(void** stn, void*(*nextp)(const void*))
 {
-    return *stt;
+    void* stou = *stn;
+    *stn = nextp(stn);
+    return stou;
 }

@@ -8,8 +8,8 @@
  * * *********************************************************** *
  * 
  * @ine:  interface equivalent
- * @stt:  status token table
- * @stin: status token input
+ * @stn:  standard token normal
+ * @stin: standard token input
 */
 
 /// @brief Group of functions used for interfacing
@@ -22,30 +22,30 @@ typedef struct inters
 } inters, interface;
 
 /**
- * @param stt : the start of the list
+ * @param stn : the start of the list
  * @param stin: node to be added
  * @param ine : funcitons that access list values
  */
-void ListInsertSorted(void** stt, void* stin, inters* ine);
+void ListInsertSorted(void** stn, void* stin, inters* ine);
 
 /**
  * @brief: prints the list
- * @param stt: head of list
- * @param get_value: the get_value interface for stt structure
- * @param netp: gets the next pointer for stt structure
+ * @param stn: head of list
+ * @param get_value: the get_value interface for stn structure
+ * @param netp: gets the next pointer for stn structure
  */
-void ListPrint(void* stt, int(*get_value)(const void*), void*(*nextp)(const void*));
+void ListPrint(void* stn, int(*get_value)(const void*),  void*(*nextp)(const void*));
 
 /**
  * @brief: frees the memory of the list
- * @param stt: list head
- * @param nextp: interface to get stt->next pointer
+ * @param stn: list head
+ * @param nextp: interface to get stn->next pointer
  */
-void ListFree(void* stt, void*(*nextp)(const void*));
+void ListFree(void* stn,  void*(*nextp)(const void*));
 
 /**
  * @brief: remove first element of list and returns it
- * @param stt: pointer of pointer of head of list
+ * @param stn: pointer of pointer of head of list
  * @ret: pointer to start of list
  */
-void* ListPop(void** stt);
+void* ListPop(void** stn, void*(*nextp)(const void*));

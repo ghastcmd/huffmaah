@@ -10,13 +10,13 @@
 
 /**
  * @brief: prints lstree values in form of list
- * @param stt: the head of lstree list
+ * @param stn: the head of lstree list
  */
 void lstree_print_vals(lstree* head);
 
 /**
  * @brief: prints lstree freqs in form of list
- * @param stt: the head of lstree list
+ * @param stn: the head of lstree list
  */
 void lstree_print_freq(lstree* head);
 

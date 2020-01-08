@@ -6,9 +6,9 @@
  * * ******************************** *
  * * ######### LOOKUP TABLE ######### *
  * * ******************************** *
- * @stt:    status token table
- * @sts:    status token start
- * @ste:    status token end
+ * @stn:    standard token normal
+ * @sts:    standard token start
+ * @ste:    standard token end
  * @vals:   values
  * @vals:   values
  * @inters: interfaces
@@ -53,9 +53,9 @@ int equcmp(const void* sts, const void* ste)
  * @param head: node pointer
  * @ret: current freq of node pointer 
  */
-int get_freq(const void* stt)
+int get_freq(const void* stn)
 {
-    lstree* cur = (lstree*)stt;
+    lstree* cur = (lstree*)stn;
     return cur->freq;
 }
 
@@ -63,9 +63,9 @@ int get_freq(const void* stt)
  * @param head: node pointer
  * @ret: current val of node pointer 
  */
-int get_val(const void* stt)
+int get_val(const void* stn)
 {
-    lstree* cur = (lstree*)stt;
+    lstree* cur = (lstree*)stn;
     return cur->val;
 }
 
@@ -73,9 +73,9 @@ int get_val(const void* stt)
  * @param head: node pointer
  * @ret: current pointer of node 
  */
-int get_ptr(const void* stt)
+int get_ptr(const void* stn)
 {
-    long long ptr = (long long)stt;
+    long long ptr = (long long)stn;
     return (int)ptr;
 }
 
@@ -107,7 +107,7 @@ void* create(const void* vals)
  * @ret: the integer values of lstree
  * @ret: retuns nullptr if fails
  */
-void* get_values(const void* stt)
+void* get_values(const void* stn)
 {
     tuple* retvals = (tuple*)malloc(sizeof(tuple));
     if (!retvals) // error checking
@@ -115,7 +115,7 @@ void* get_values(const void* stt)
         logerr("malloc");
         return nullptr;
     }
-    lstree* stv = (lstree*)stt;
+    lstree* stv = (lstree*)stn;
     *retvals = (tuple)
     {
         .st0 = stv->val,
@@ -125,22 +125,22 @@ void* get_values(const void* stt)
 }
 
 /**
- * @param stt: lstree node pointer
- * @ret: next pointer in stt lstree
+ * @param stn: lstree node pointer
+ * @ret: next pointer in stn lstree
  */
-void* nextp(const void* stt)
+void* nextp(const void* stn)
 {
-    lstree* stv = (lstree*)stt;
+    lstree* stv = (lstree*)stn;
     return (void*)stv->next;
 }
 
 /**
- * @param stt: lstree node pointer
- * @ret: next pointer by reference in stt lstree
+ * @param stn: lstree node pointer
+ * @ret: next pointer by reference in stn lstree
  */
-void** nextptr(const void* stt)
+void** nextptr(const void* stn)
 {
-    lstree* stv = (lstree*)stt;
+    lstree* stv = (lstree*)stn;
     return (void**)&(stv->next);
 }
 
