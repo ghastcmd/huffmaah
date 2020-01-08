@@ -1,12 +1,6 @@
 #include "linkedList.h"
 
-void* nextp_l(void* stt)
-{
-    lstree* ls = (lstree*)stt;
-    return ls->next;
-}
-
-void insert_sorted(void** stt, void* stin, inters* ine)
+void ListInsertSorted(void** stt, void* stin, inters* ine)
 {
     if (!*stt)
     {
@@ -61,7 +55,7 @@ void insert_sorted(void** stt, void* stin, inters* ine)
     *curnxptr = stin;
 }
 
-void print_list(void* stt, int(*get_value)(const void*), void*(*nextp)(const void*))
+void ListPrint(void* stt, int(*get_value)(const void*), void*(*nextp)(const void*))
 {
     void* current = stt;
     void* tmp;
@@ -73,11 +67,16 @@ void print_list(void* stt, int(*get_value)(const void*), void*(*nextp)(const voi
     printf("%i\n", get_value(current));
 }
 
-void free_list(void* stt, void*(*nextp)(const void*))
+void ListFree(void* stt, void*(*nextp)(const void*))
 {
     if (stt)
     {
-        free_list(nextp(stt), nextp);
+        ListFree(nextp(stt), nextp);
         free(stt);
     }
+}
+
+void* ListPop(void** stt)
+{
+    return *stt;
 }

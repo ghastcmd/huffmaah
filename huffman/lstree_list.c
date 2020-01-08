@@ -152,7 +152,6 @@ void** nextptr(const void* stt)
 
 inters ine = (interface)
 {
-    .get_vals = get_values,
     .compar   = compare,
     .equcmp   = equcmp,
     .nextp    = nextp,
@@ -167,12 +166,12 @@ inters ine = (interface)
 
 void lstree_print_vals(lstree* head)
 {
-    print_list((void*)head, get_val, nextp);
+    ListPrint((void*)head, get_val, nextp);
 }
 
 void lstree_print_freq(lstree* head)
 {
-    print_list((void*)head, get_freq, nextp);
+    ListPrint((void*)head, get_freq, nextp);
 }
 
 void lstree_add(lstree** head, int val, int freq)
@@ -185,17 +184,10 @@ void lstree_add(lstree** head, int val, int freq)
         .st1 = freq
     };
     ine.compar = compare;
-    insert_sorted((void**)head, stin, &ine);
+    ListInsertSorted((void**)head, stin, &ine);
 }
 
 void clean_list(lstree* head)
 {
-    free_list(head, nextp);
-}
-
-void tst(lstree** head)
-{
-    printf("%p\n", *head);
-    printf("%p\n", head);
-
+    ListFree(head, nextp);
 }
