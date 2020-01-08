@@ -8,11 +8,15 @@ void* nextp_l(void* stt)
 
 void insert_sorted(void** stt, void* stin, inters* ine)
 {
+    if (!*stt)
+    {
+        *stt = stin;
+        return;
+    }
     int cmp  = ine->compar(stin, *stt);
     int cmpe = ine->equcmp(stin, *stt);
     if (cmp < 0 || (cmp == 0 && cmpe < 0))
     {
-        puts("first");
         // * ************************ *
         // *    put stin before stt   *
         // * ************************ *
@@ -23,8 +27,6 @@ void insert_sorted(void** stt, void* stin, inters* ine)
     }
     else if (cmp == 0)
     {
-        puts("second");
-
         ine->compar = ine->equcmp;
     }
 
@@ -37,9 +39,8 @@ void insert_sorted(void** stt, void* stin, inters* ine)
         current = tmp;
         cmp  = ine->compar(stin, current);
         cmpe = ine->equcmp(stin, current);
-        if (cmp < 0)
+        if (cmp < 0 || (cmp == 0 && cmpe < 0))
         {
-            puts("final");
             // * ************************** *
             // *  stick stin where it fits  *
             // * ************************** *
@@ -51,13 +52,11 @@ void insert_sorted(void** stt, void* stin, inters* ine)
         }
         else if (cmp == 0)
         {
-            puts("workou");
             ine->compar = ine->equcmp;
         }
         trail = current;
     }
 
-    puts("finale");
     void** curnxptr = ine->nextptr(current);
     *curnxptr = stin;
 }
