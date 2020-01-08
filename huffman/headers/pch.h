@@ -1,4 +1,4 @@
 #pragma once
 #include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include "defines.h"

@@ -1,9 +1,10 @@
 target = bin
-src = src
+src = huffman
 bin = build
-inc = src/headers
+inc = $(src)/headers
 pch = pch
 cc = gcc
+flags = -Wall -Werror
 
 source = $(wildcard $(src)/*.c)
 object = $(patsubst %,$(bin)/%, $(notdir $(source:.c=.o)))
@@ -12,10 +13,10 @@ $(bin)/$(pch).o: $(src)/$(pch).c $(inc)/$(pch).h
 	$(cc) -c $< -o $@ -I $(inc)
 
 $(bin)/$(target): $(object)
-	$(cc) $^ -o $@
+	$(cc) $^ $(flags) -o $@ 
 
 $(bin)/%.o: $(src)/%.c
-	$(cc) -c $< -o $@ -I $(inc)
+	$(cc) -c $< -o $@  $(flags) -I $(inc) 
 
 build: $(bin)/$(target)
 
