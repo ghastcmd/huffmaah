@@ -84,26 +84,27 @@ int get_ptr(const void* stn)
  * @ret: heap allocated lstree node pointer
  * @ret: returns nullptr if fails
  */
-void* create(const void* vals)
-{
-    tuple* values = (tuple*)vals;
-    lstree* new_lstree = (lstree*)calloc(1, sizeof(lstree));
-    if (!new_lstree) // error checikng
-    {
-        logerr("calloc");
-        return nullptr;
-    }
-    *new_lstree = (lstree)
-    {
-        .val  = values->st0,
-        .freq = values->st1
-    };
+// ! Unused
+// void* create_list(const void* vals)
+// {
+//     tuple* values = (tuple*)vals;
+//     lstree* new_lstree = (lstree*)calloc(1, sizeof(lstree));
+//     if (!new_lstree) // error checikng
+//     {
+//         logerr("calloc");
+//         return nullptr;
+//     }
+//     *new_lstree = (lstree)
+//     {
+//         .val  = values->st0,
+//         .freq = values->st1
+//     };
 
-    return (void*)new_lstree;
-}
+//     return (void*)new_lstree;
+// }
 
 /**
- * @param head: lstree node pointer
+ * @param stn: lstree node pointer
  * @ret: the integer values of lstree
  * @ret: retuns nullptr if fails
  */
@@ -131,6 +132,7 @@ void* get_values(const void* stn)
 void* nextp(const void* stn)
 {
     lstree* stv = (lstree*)stn;
+    // printf("\x1b[31m%p\x1b[0m\n", stv->next);
     return (void*)stv->next;
 }
 
@@ -159,9 +161,9 @@ inters ine = (interface)
 };
 
 /**
- * * *************************************** *
- * * Global functions linked at lstreeList.h *
- * * *************************************** *
+ * * **************************************** *
+ * * Global functions linked at lstree_list.h *
+ * * **************************************** *
  */
 
 void lstree_print_vals(lstree* head)
@@ -174,17 +176,32 @@ void lstree_print_freq(lstree* head)
     ListPrint((void*)head, get_freq, nextp);
 }
 
+void lstree_print_char(lstree* head)
+{
+    ListFPrint((void*)head, get_val, nextp, "%c ");
+}
+
 void lstree_add(lstree** head, int val, int freq)
 {
     printf("\x1b[92mInserting:\x1b[94m %i %i\x1b[0m\n", val, freq);
-    tuple* stin = (tuple*)calloc(1, sizeof(tuple));
-    *stin = (tuple)
+    lstree* stin = (lstree*)calloc(1, sizeof(lstree));
+    *stin = (lstree)
     {
-        .st0 = val,
-        .st1 = freq
+        .val   = val,
+        .freq  = freq
     };
     ine.compar = compare;
     ListInsertSorted((void**)head, stin, &ine);
+}
+
+void lstree_add_node(void** head, void* node)
+{
+    ListInsertSorted(head, node, &ine);
+}
+
+void* lstree_pop(void** head)
+{
+    return ListPop(head, nextp);
 }
 
 void clean_list(lstree* head)

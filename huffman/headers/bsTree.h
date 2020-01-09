@@ -2,7 +2,7 @@
 #include <pch.h>
 
 /// @brief Group of functions used for interfacing
-typedef struct inters
+typedef struct inters_bst
 {
     void*(*merge    )(const void*, const void*);
     void*(*create   )(const void*);
@@ -10,7 +10,7 @@ typedef struct inters
     void**(*leftptr )(const void*);
     void*(*rightp   )(const void*);
     void**(*rightptr)(const void*);
-} inters, interface;
+} inters_bst;
 
 /**
  * @brief: gets two node tree nodes merge them as father
@@ -19,4 +19,6 @@ typedef struct inters
  * @param str: right child tree node
  * @ret: pointer to created father
  */
-void* TreeUnion(const void* sts, const void* ste, const inters* ine);
+void* TreeUnion(void* sts, void* ste, const inters_bst* ine);
+
+void TreePrintPreorder(void* sth, const inters_bst* ine, int(*get_val)(const void*));

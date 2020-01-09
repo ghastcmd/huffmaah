@@ -36,6 +36,8 @@ void ListInsertSorted(void** stn, void* stin, inters* ine);
  */
 void ListPrint(void* stn, int(*get_value)(const void*),  void*(*nextp)(const void*));
 
+void ListFPrint(void* stn, int(*get_value)(const void*),  void*(*nextp)(const void*), const char* fmt);
+
 /**
  * @brief: frees the memory of the list
  * @param stn: list head

@@ -20,12 +20,18 @@ void lstree_print_vals(lstree* head);
  */
 void lstree_print_freq(lstree* head);
 
+void lstree_print_char(lstree* head);
+
 /**
  * @brief: adds a node to lstree with said values
  * @param val: value of char
  * @param freq: frequency of char in file
  */
 void lstree_add(lstree** head, int val, int freq);
+
+void lstree_add_node(void** head, void* node);
+
+void* lstree_pop(void** head);
 
 /**
  * @brief: frees memory from list

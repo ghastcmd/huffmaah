@@ -28,11 +28,25 @@ void ListInsertSorted(void** stn, void* stin, inters* ine)
     void* trail   = *stn;
 
     void* tmp;
+    int(*comparo)(const void*, const void*) = ine->compar;
     while ((tmp = ine->nextp(current)))
     {
         current = tmp;
+
         cmp  = ine->compar(stin, current);
         cmpe = ine->equcmp(stin, current);
+        // int tmpval;
+        // if ((tmpval = comparo(stin, current)) == 0)
+        // {
+        //     continue;
+        //     ine->compar = ine->equcmp;
+        // }
+        // else
+        // {
+        //     cmp = tmpval;
+        //     ine->compar = comparo;
+        // }
+
         if (cmp < 0 || (cmp == 0 && cmpe < 0))
         {
             // * ************************** *
@@ -44,10 +58,12 @@ void ListInsertSorted(void** stn, void* stin, inters* ine)
             *innextptr       = current;
             return;
         }
-        else if (cmp == 0)
+        else if (cmp == 0 && cmpe > 0)
         {
-            ine->compar = ine->equcmp;
+
         }
+        
+        comparo(stin, current);
         trail = current;
     }
 
@@ -67,6 +83,16 @@ void ListPrint(void* stn, int(*get_value)(const void*), void*(*nextp)(const void
     printf("%i\n", get_value(current));
 }
 
+void ListFPrint(void* stn, int(*get_value)(const void*), void*(*nextp)(const void*), const char* fmt)
+{
+    void* current = stn;
+    while(current)
+    {
+        printf(fmt, get_value(current));
+        current = nextp(current);
+    }
+}
+
 void ListFree(void* stn, void*(*nextp)(const void*))
 {
     if (stn)
@@ -79,6 +105,6 @@ void ListFree(void* stn, void*(*nextp)(const void*))
 void* ListPop(void** stn, void*(*nextp)(const void*))
 {
     void* stou = *stn;
-    *stn = nextp(stn);
+    *stn = nextp(*stn);
     return stou;
 }
