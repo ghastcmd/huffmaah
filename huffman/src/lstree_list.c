@@ -168,7 +168,7 @@ void lstree_print_freq(lstree* head)
 
 void lstree_print_char(lstree* head)
 {
-    ListFPrint((void*)head, get_val, nextp, "%c ");
+    ListFPrint((void*)head, get_val, nextp, "%c");
 }
 
 void lstree_add_val(lstree** headr, int val, int freq)
@@ -189,12 +189,12 @@ void lstree_add_node(lstree** headr, lstree* node)
     ListInsertSorted((void**)headr, (void*)node, &ine);
 }
 
-void* lstree_pop(void** headr)
+void* lstree_pop(lstree** headr)
 {
-    return ListPop(headr, nextp);
+    return ListPop((void**)headr, nextp);
 }
 
-void clean_list(lstree* head)
+void lstree_clean_list(lstree* head)
 {
     ListFree(head, nextp);
 }

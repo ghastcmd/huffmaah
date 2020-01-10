@@ -112,13 +112,13 @@ void** rightptr(const void* stn)
 }
 
 /**
- * @param stn: pointe to lstree node
- * @ret: freq value of input node
+ * @param stn: pointer to lstree node
+ * @ret: .val value of input node
  */
 int get_val_bst(const void* stn)
 {
     lstree* stnp = (lstree*)stn;
-    return stnp->freq;
+    return stnp->val;
 }
 
 /**
@@ -145,12 +145,12 @@ inters_bst ine_bst = (inters_bst)
 
 void lstree_bst_union(lstree** head)
 {
-    void* leftchild  = lstree_pop((void**)head);
-    void* rightchild = lstree_pop((void**)head);
+    void* leftchild  = lstree_pop(head);
+    void* rightchild = lstree_pop(head);
 
     void* inputnew = TreeUnion(leftchild, rightchild, &ine_bst);
 
-    lstree_add_node((void**)head, inputnew);
+    lstree_add_node(head, inputnew);
 }
 
 void lstree_bst_treeify(lstree** head)
@@ -161,7 +161,9 @@ void lstree_bst_treeify(lstree** head)
     }
 }
 
-void lstree_bst_print_preorder(lstree* head)
+void lstree_bst_printf_preorder(lstree* head)
 {
-    TreePrintPreorder((void*)head, &ine_bst, get_val_bst);
+    const char* fmt = "%c";
+    TreeFPrintPreorder((void*)head, &ine_bst, get_val_bst, fmt);
+    puts("");
 }

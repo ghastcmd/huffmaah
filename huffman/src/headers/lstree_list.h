@@ -46,10 +46,10 @@ void lstree_add_node(lstree** headr, lstree* node);
  * @param headr: pointer by reference to start of lstree list
  * @ret: pointer of popped lstree node
  */
-void* lstree_pop(void** headr);
+void* lstree_pop(lstree** headr);
 
 /**
  * @brief: frees memory of lstree list
  * @param head: pointer to start of lstree list
  */
-void clean_list(lstree* head);
+void lstree_clean_list(lstree* head);

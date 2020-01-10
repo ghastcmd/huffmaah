@@ -38,13 +38,10 @@ int main()
     puts("\x1b[94mprint chars before\x1b[0m");
     lstree_print_char(head);
 
-    // lstree_bst_union(&head);
     puts("");
     lstree_bst_treeify(&head);
     
-    // lstree_bst_print_preorder(head);
-    print_tree(head);
-    puts("");
+    lstree_bst_printf_preorder(head, "%c");
 
     puts("\x1b[94mprint freqs\x1b[0m");
     lstree_print_freq(head);

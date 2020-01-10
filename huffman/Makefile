@@ -21,7 +21,7 @@ $(bin)/$(pch).o: $(src)/$(pch).c $(inc)/$(pch).h
 	$(cc) -c $< -o $@ -I $(inc)
 
 
-run: $(bin)/$(target)
+run: build
 	@$(bin)/$(target)
 
 dirs:

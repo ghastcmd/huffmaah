@@ -20,9 +20,18 @@ void* TreeUnion(void* sts, void* ste, const inters_bst* ine)
     return stnew;
 }
 
-void TreePrintPreorder(void* sth, const inters_bst* ine, int(*get_val)(const void*) )
+void TreePrintPreorder(void* sth, const inters_bst* ine, int(*get_val)(const void*))
 {
+    if (!sth) return;
     printf("%i ", get_val(sth));
     TreePrintPreorder(ine->leftp(sth) , ine, get_val);
     TreePrintPreorder(ine->rightp(sth), ine, get_val);
+}
+
+void TreeFPrintPreorder(void* sth, const inters_bst* ine, int(*get_val)(const void*), const char* fmt)
+{
+    if (!sth) return;
+    printf(fmt, get_val(sth));
+    TreeFPrintPreorder(ine->leftp(sth) , ine, get_val, fmt);
+    TreeFPrintPreorder(ine->rightp(sth), ine, get_val, fmt);
 }
