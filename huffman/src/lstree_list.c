@@ -169,11 +169,12 @@ void lstree_print_freq(lstree* head)
 void lstree_print_char(lstree* head)
 {
     ListFPrint((void*)head, get_val, nextp, "%c");
+    puts("");
 }
 
 void lstree_add_val(lstree** headr, int val, int freq)
 {
-    printf("\x1b[92mInserting:\x1b[94m %i %i\x1b[0m\n", val, freq);
+    // printf("\x1b[92mInserting:\x1b[94m %i %i\x1b[0m\n", val, freq);
     lstree* stin = (lstree*)calloc(1, sizeof(lstree));
     *stin = (lstree)
     {

@@ -12,5 +12,6 @@ typedef struct lstree
 
 typedef struct tuple
 {
-    int st0, st1;
+    int st0;
+    int st1;
 } tuple;

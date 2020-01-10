@@ -24,6 +24,14 @@ typedef struct inters_bst
 void* TreeUnion(void* sts, void* ste, const inters_bst* ine);
 
 /**
+ * @brief: adds a node to the tree
+ * @param sth: pointer by reference to tree's root
+ * @param stin: pointer to node to be added
+ * @param ine: struct of interfaces
+ */
+void TreeAdd(void** sth, void* stin, const inters_bst* ine);
+
+/**
  * @brief: executes a user-defined function for every values of tree in preorder
  * @param sth: pointer of tree's root
  * @param ine: interface struct

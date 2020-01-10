@@ -38,11 +38,11 @@ void* merge(const void* sts, const void* ste)
     lstree* stsr = (lstree*)sts;
     lstree* ster = (lstree*)ste;
     
-    tuple* retdata = (tuple*)calloc(1, sizeof(tuple));
+    tuple* retdata = (tuple*)calloc(2, sizeof(tuple));
 
     *retdata = (tuple)
     {
-        .st0 = '*',
+        .st0 = FLAG,
         .st1 = stsr->freq + ster->freq
     };
 
@@ -62,6 +62,7 @@ void* create(const void* std)
         logerr("calloc");
         exit(-1);
     }
+
     *stnew = (lstree)
     {
         .val  = stt->st0,
@@ -160,6 +161,36 @@ void lstree_bst_treeify(lstree** head)
     {
         lstree_bst_union(head);
     }
+}
+
+lstree* lstree_bst_make_tree(const char* tree_fmt)
+{
+    int len = strlen(tree_fmt);
+    lstree* root = nullptr;
+    for (int i = 0; i < len; i++)
+    {
+        lstree* input = (lstree*)calloc(1, sizeof(lstree));
+        if (!input)
+        {
+            logerr("calloc");
+            exit(-1);
+        }
+
+        int chr = tree_fmt[i];
+        if (chr == '*')
+        {
+            chr = FLAG;
+        }
+        else if (chr == '\\')
+        {
+            chr = tree_fmt[++i];
+        }
+
+        input->val = chr;
+
+        TreeAdd((void**)&root, (void*)input, &ine_bst);
+    }
+    return root;
 }
 
 void lstree_bst_foreach_preorder(lstree* head, void(*foo)(const int))

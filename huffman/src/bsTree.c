@@ -21,6 +21,34 @@ void* TreeUnion(void* sts, void* ste, const inters_bst* ine)
     return stnew;
 }
 
+void TreeAdd_holder(void** sth, void* stin, const inters_bst* ine, bool* found)
+{
+    if (!*sth)
+    {
+        *found = true;
+        *sth = stin;
+        return;
+    }
+
+    void* lptr = ine->leftp (*sth);   
+    if ((!lptr || ine->get_val(lptr) == FLAG) && !*found)
+    {
+        TreeAdd_holder(ine->leftptr(*sth), stin, ine, found);
+    }
+
+    void* rptr = ine->rightp(*sth);
+    if ((!rptr || ine->get_val(rptr) == FLAG) && !*found)
+    {
+        TreeAdd_holder(ine->rightptr(*sth), stin, ine, found);
+    }
+}
+
+void TreeAdd(void** sth, void* stin, const inters_bst* ine)
+{
+    bool found = false;
+    TreeAdd_holder(sth, stin, ine, &found);
+}
+
 void TreeForEachPreorder(void* sth, const inters_bst* ine, void(*foo)(const int))
 {
     if (!sth) return;
