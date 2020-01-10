@@ -3,8 +3,8 @@
 // A list of tree nodes
 typedef struct lstree
 {
-    int val;
-    int freq;
+    void* val;
+    int64_t freq;
     struct lstree* next;
     struct lstree* left;
     struct lstree* right;
@@ -12,6 +12,6 @@ typedef struct lstree
 
 typedef struct tuple
 {
-    int st0;
-    int st1;
+    int64_t st0;
+    int64_t st1;
 } tuple;

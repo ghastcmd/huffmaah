@@ -37,18 +37,16 @@ int main()
     lstree_add_val(&head, 'C', 4);
     lstree_add_val(&head, 'B', 5);
     lstree_add_val(&head, 'F', 1);
-    lstree_add_val(&head, '\\', 20);
     lstree_add_val(&head, 'E', 2);
     lstree_add_val(&head, 'D', 3);
     lstree_add_val(&head, 'A', 6);
 
-    const char* values = "*\\\\**CB***FEDA";
-    lstree* tree = lstree_bst_make_tree(values);
-    lstree_bst_foreach_preorder(tree, print_tree);
-    puts("");
-    puts(values);
+    lstree_print_char(head);
+    lstree_print_freq(head);
+    lstree_print_vals(head);
+
     lstree_bst_treeify(&head);
-    
+
     lstree_bst_foreach_preorder(head, print_tree);
     puts("");
 

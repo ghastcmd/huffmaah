@@ -63,9 +63,17 @@ void* create(const void* std)
         exit(-1);
     }
 
+    int* value = (int*)malloc(sizeof(int));
+    if (!value)
+    {
+        logerr("malloc");
+        exit(-1);
+    }
+    *value = stt->st0;
+
     *stnew = (lstree)
     {
-        .val  = stt->st0,
+        .val  = value,
         .freq = stt->st1
     };
 
@@ -119,7 +127,8 @@ void** rightptr(const void* stn)
 int get_val_bst(const void* stn)
 {
     lstree* stnp = (lstree*)stn;
-    return stnp->val;
+    int* value = (int*)stnp->val;
+    return *value;
 }
 
 /**
@@ -147,10 +156,10 @@ inters_bst ine_bst = (inters_bst)
 
 void lstree_bst_union(lstree** head)
 {
-    void* leftchild  = lstree_pop(head);
-    void* rightchild = lstree_pop(head);
+    lstree* leftchild  = lstree_pop(head);
+    lstree* rightchild = lstree_pop(head);
 
-    void* inputnew = TreeUnion(leftchild, rightchild, &ine_bst);
+    void* inputnew = TreeUnion((void*)leftchild, (void*)rightchild, &ine_bst);
 
     lstree_add_node(head, inputnew);
 }
@@ -176,18 +185,23 @@ lstree* lstree_bst_make_tree(const char* tree_fmt)
             exit(-1);
         }
 
-        int chr = tree_fmt[i];
-        if (chr == '*')
+        int* chr = (int*)malloc(sizeof(int));
+        if (!chr)
         {
-            chr = FLAG;
+            logerr("malloc");
+            exit(-1);
         }
-        else if (chr == '\\')
+        *chr = tree_fmt[i];
+        if (*chr == '*')
         {
-            chr = tree_fmt[++i];
+            *chr = FLAG;
+        }
+        else if (*chr == '\\')
+        {
+            *chr = tree_fmt[++i];
         }
 
         input->val = chr;
-
         TreeAdd((void**)&root, (void*)input, &ine_bst);
     }
     return root;

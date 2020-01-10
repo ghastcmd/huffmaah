@@ -42,7 +42,10 @@ int equcmp(const void* sts, const void* ste)
     lstree* st0v = (lstree*)sts;
     lstree* st1v = (lstree*)ste;
 
-    return st0v->val - st1v->val;
+    int* st0vp = (int*)st0v->val;
+    int* st1vp = (int*)st1v->val;
+
+    return *st0vp - *st1vp;
 }
 
 /**
@@ -62,7 +65,8 @@ int get_freq(const void* stn)
 int get_val(const void* stn)
 {
     lstree* cur = (lstree*)stn;
-    return cur->val;
+    int* value = (int*)cur->val;
+    return *value;
 }
 
 /**
@@ -73,22 +77,29 @@ int get_val(const void* stn)
 // ! ######################## !
 // ! #####    UNUSED    ##### !
 // ! ######################## !
-void* create_list(const void* vals)
-{
-    tuple* values = (tuple*)vals;
-    lstree* new_lstree = (lstree*)calloc(1, sizeof(lstree));
-    if (!new_lstree) // error checikng
-    {
-        logerr("calloc");
-        return nullptr;
-    }
-    *new_lstree = (lstree)
-    {
-        .val  = values->st0,
-        .freq = values->st1
-    };
-    return (void*)new_lstree;
-}
+// void* create_list(const void* vals)
+// {
+//     tuple* values = (tuple*)vals;
+//     lstree* new_lstree = (lstree*)calloc(1, sizeof(lstree));
+//     if (!new_lstree) // error checikng
+//     {
+//         logerr("calloc");
+//         return nullptr;
+//     }
+//     int* value = (int*)malloc(sizeof(int));
+//     if (!value)
+//     {
+//         logerr("malloc");
+//         exit(-1)
+//     }
+//     *value = values->st0;
+//     *new_lstree = (lstree)
+//     {
+//         .val  = value,
+//         .freq = values->st1
+//     };
+//     return (void*)new_lstree;
+// }
 
 /**
  * @param stn: lstree node pointer
@@ -98,22 +109,18 @@ void* create_list(const void* vals)
 // ! ######################## !
 // ! #####    UNUSED    ##### !
 // ! ######################## !
-void* get_values(const void* stn)
-{
-    tuple* retvals = (tuple*)malloc(sizeof(tuple));
-    if (!retvals) // error checking
-    {
-        logerr("malloc");
-        return nullptr;
-    }
-    lstree* stv = (lstree*)stn;
-    *retvals = (tuple)
-    {
-        .st0 = stv->val,
-        .st1 = stv->freq
-    };
-    return (void*)retvals;
-}
+// void* get_values(const void* stn)
+// {
+//     tuple* retvals = (tuple*)stn;
+//     lstree* stv = (lstree*)stn;
+//     int* malloc(sizeof)
+//     *retvals = (tuple)
+//     {
+//         .st0 = stv->val,
+//         .st1 = stv->freq
+//     };
+//     return (void*)retvals;
+// }
 
 /**
  * @param stn: lstree node pointer
@@ -176,9 +183,22 @@ void lstree_add_val(lstree** headr, int val, int freq)
 {
     // printf("\x1b[92mInserting:\x1b[94m %i %i\x1b[0m\n", val, freq);
     lstree* stin = (lstree*)calloc(1, sizeof(lstree));
+    if (!stin)
+    {
+        logerr("calloc");
+        exit(-1);
+    }
+
+    int* value = (int*)malloc(sizeof(int));
+    if (!value)
+    {
+        logerr("malloc");
+        exit(-1);
+    }
+    *value = val;
     *stin = (lstree)
     {
-        .val   = val,
+        .val   = value,
         .freq  = freq
     };
     ine.compar = compare;
