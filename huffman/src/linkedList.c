@@ -19,10 +19,6 @@ void ListInsertSorted(void** stn, void* stin, inters* ine)
         *stn             = stin;
         return;
     }
-    else if (cmp == 0)
-    {
-        ine->compar = ine->equcmp;
-    }
 
     void* current = *stn;
     void* trail   = *stn;
