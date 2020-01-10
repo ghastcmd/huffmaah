@@ -12,10 +12,6 @@
  * @vals:   values
  * @vals:   values
  * @inters: interfaces
- * * ******************************** *
- * *        perror string format      *
- * * @[cur func] > .[variable] [func] *
- * * ******************************** *
  */
 
 /**
@@ -70,44 +66,38 @@ int get_val(const void* stn)
 }
 
 /**
- * @param head: node pointer
- * @ret: current pointer of node 
- */
-int get_ptr(const void* stn)
-{
-    long long ptr = (long long)stn;
-    return (int)ptr;
-}
-
-/**
  * @param vals: tuple of val and freq to new lstree
  * @ret: heap allocated lstree node pointer
  * @ret: returns nullptr if fails
  */
-// ! Unused
-// void* create_list(const void* vals)
-// {
-//     tuple* values = (tuple*)vals;
-//     lstree* new_lstree = (lstree*)calloc(1, sizeof(lstree));
-//     if (!new_lstree) // error checikng
-//     {
-//         logerr("calloc");
-//         return nullptr;
-//     }
-//     *new_lstree = (lstree)
-//     {
-//         .val  = values->st0,
-//         .freq = values->st1
-//     };
-
-//     return (void*)new_lstree;
-// }
+// ! ######################## !
+// ! #####    UNUSED    ##### !
+// ! ######################## !
+void* create_list(const void* vals)
+{
+    tuple* values = (tuple*)vals;
+    lstree* new_lstree = (lstree*)calloc(1, sizeof(lstree));
+    if (!new_lstree) // error checikng
+    {
+        logerr("calloc");
+        return nullptr;
+    }
+    *new_lstree = (lstree)
+    {
+        .val  = values->st0,
+        .freq = values->st1
+    };
+    return (void*)new_lstree;
+}
 
 /**
  * @param stn: lstree node pointer
  * @ret: the integer values of lstree
  * @ret: retuns nullptr if fails
  */
+// ! ######################## !
+// ! #####    UNUSED    ##### !
+// ! ######################## !
 void* get_values(const void* stn)
 {
     tuple* retvals = (tuple*)malloc(sizeof(tuple));
@@ -138,7 +128,7 @@ void* nextp(const void* stn)
 
 /**
  * @param stn: lstree node pointer
- * @ret: next pointer by reference in stn lstree
+ * @ret: the next pointer by reference of stn
  */
 void** nextptr(const void* stn)
 {
@@ -148,7 +138,7 @@ void** nextptr(const void* stn)
 
 /**
  * * ****************************************** *
- * * Declaring local global interface structure *
+ * * Declaring local-global interface structure *
  * * ****************************************** *
  */
 
@@ -181,7 +171,7 @@ void lstree_print_char(lstree* head)
     ListFPrint((void*)head, get_val, nextp, "%c ");
 }
 
-void lstree_add(lstree** head, int val, int freq)
+void lstree_add_val(lstree** headr, int val, int freq)
 {
     printf("\x1b[92mInserting:\x1b[94m %i %i\x1b[0m\n", val, freq);
     lstree* stin = (lstree*)calloc(1, sizeof(lstree));
@@ -191,17 +181,17 @@ void lstree_add(lstree** head, int val, int freq)
         .freq  = freq
     };
     ine.compar = compare;
-    ListInsertSorted((void**)head, stin, &ine);
+    ListInsertSorted((void**)headr, stin, &ine);
 }
 
-void lstree_add_node(void** head, void* node)
+void lstree_add_node(lstree** headr, lstree* node)
 {
-    ListInsertSorted(head, node, &ine);
+    ListInsertSorted((void**)headr, (void*)node, &ine);
 }
 
-void* lstree_pop(void** head)
+void* lstree_pop(void** headr)
 {
-    return ListPop(head, nextp);
+    return ListPop(headr, nextp);
 }
 
 void clean_list(lstree* head)

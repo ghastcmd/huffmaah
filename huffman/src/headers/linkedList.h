@@ -8,11 +8,15 @@
  * * *********************************************************** *
  * 
  * @ine:  interface equivalent
- * @stn:  standard token normal
+ * @stn:  standard token node
+ * @stnr: stantard token node reference
  * @stin: standard token input
+ * @fmt:  char pointer to format
 */
 
-/// @brief Group of functions used for interfacing
+/**
+ * @brief Group of functions used for interfacing
+ */
 typedef struct inters
 {
     int  (*compar  )(const void*, const void*);
@@ -30,24 +34,33 @@ void ListInsertSorted(void** stn, void* stin, inters* ine);
 
 /**
  * @brief: prints the list
+ * OBS: is have break line at the end of string
  * @param stn: head of list
  * @param get_value: the get_value interface for stn structure
  * @param netp: gets the next pointer for stn structure
  */
-void ListPrint(void* stn, int(*get_value)(const void*),  void*(*nextp)(const void*));
+void ListPrint(void* stn, int(*get_value)(const void*), void*(*nextp)(const void*));
 
-void ListFPrint(void* stn, int(*get_value)(const void*),  void*(*nextp)(const void*), const char* fmt);
+/**
+ * @brief: similar to ListPrint but with format param
+ * OBS: it doesn't have break line at the end
+ * @param stn: head pointer of list
+ * @param get_value: the get_value interface for stn structure
+ * @param netp: gets the next pointer for stn structure
+ */
+void ListFPrint(void* stn, int(*get_value)(const void*), void*(*nextp)(const void*), const char* fmt);
 
 /**
  * @brief: frees the memory of the list
- * @param stn: list head
- * @param nextp: interface to get stn->next pointer
+ * @param stn: pointer to the list start
+ * @param nextp: function that returs next pointer
  */
-void ListFree(void* stn,  void*(*nextp)(const void*));
+void ListFree(void* stn, void*(*nextp)(const void*));
 
 /**
  * @brief: remove first element of list and returns it
- * @param stn: pointer of pointer of head of list
+ * @param stnr: pointer of pointer of head of list
+ * @param nextp: function that returns next pointer
  * @ret: pointer to start of list
  */
-void* ListPop(void** stn, void*(*nextp)(const void*));
+void* ListPop(void** stnr, void*(*nextp)(const void*));

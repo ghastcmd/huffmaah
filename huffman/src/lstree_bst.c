@@ -7,33 +7,52 @@
  * * ******************************** *
  * * ######### LOOKUP TABLE ######### *
  * * ******************************** *
- * @stn:    standard token normal
+ * @std:    standard token data
  * @stt:    standard token tuple
+
+ * @stn:    standard token node
  * @sts:    standard token start
  * @ste:    standard token end
- * @stsrs:  standard token start resolved
- * @sters:  standard token end resolved
+
+ * @stsr:   standard token start resolved
+ * @ster:   standard token end resolved
+ 
  * @val:    value
  * @vals:   values
- * @inters: interfaces
  */
 
+/**
+ * * ************************************* *
+ * * ########## LOCAL FUNCTIONS ########## *
+ * * ************************************* *
+ */
+
+/**
+ * @brief: gets two inputs and merge it's integers values and returns is
+ * @param sts: first lstree node input
+ * @param ste: second lstree node input
+ * @ret: the merge of integers of inputs
+ */
 void* merge(const void* sts, const void* ste)
 {
-    lstree* stsrs = (lstree*)sts;
-    lstree* sters = (lstree*)ste;
+    lstree* stsr = (lstree*)sts;
+    lstree* ster = (lstree*)ste;
     
     tuple* retdata = (tuple*)calloc(1, sizeof(tuple));
 
     *retdata = (tuple)
     {
         .st0 = '*',
-        .st1 = stsrs->freq + sters->freq
+        .st1 = stsr->freq + ster->freq
     };
 
     return (void*)retdata;
 }
 
+/**
+ * @param std: data used to create new lstree node
+ * @ret: pointer to new lstree node
+ */
 void* create(const void* std)
 {
     tuple* stt    = (tuple*)std;
@@ -52,30 +71,50 @@ void* create(const void* std)
     return (void*)stnew;
 }
 
+/**
+ * @param stn: pointer to lstree node
+ * @ret: pointe to stn left pointer
+ */
 void* leftp(const void* stn)
 {
     lstree* stnp = (lstree*)stn;
     return stnp->left;
 }
 
+/**
+ * @param stn: pointer to lstree node
+ * @ret: pointe to stn right pointer
+ */
 void* rightp(const void* stn)
 {
     lstree* stnp = (lstree*)stn;
     return stnp->right;
 }
 
+/**
+ * @param stn: pointer to lstree node
+ * @ret: pointe to stn left pointer by reference
+ */
 void** leftptr(const void* stn)
 {
     lstree* stnptr = (lstree*)stn;
     return (void**)&(stnptr->left);
 }
 
+/**
+ * @param stn: pointer to lstree node
+ * @ret: pointe to stn right pointer by reference
+ */
 void** rightptr(const void* stn)
 {
     lstree* stnptr = (lstree*)stn;
     return (void**)&(stnptr->right);
 }
 
+/**
+ * @param stn: pointe to lstree node
+ * @ret: freq value of input node
+ */
 int get_val_bst(const void* stn)
 {
     lstree* stnp = (lstree*)stn;

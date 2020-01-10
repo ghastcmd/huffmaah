@@ -23,17 +23,13 @@ int main()
     // int num[256] = { 0 };
 
     lstree* head = nullptr;
-        
 
-    lstree_add(&head, 'a', 10);
-    lstree_add(&head, 'b', 10);
-    lstree_add(&head, 'c', 10);
-    lstree_add(&head, 'd',  2);
-    lstree_add(&head, 'e', 10);
-    lstree_add(&head, 'f',  7);
-    lstree_add(&head, 'g', 10);
-    lstree_add(&head, 'h',  1);
-    lstree_add(&head, 'i',  9);
+    lstree_add_val(&head, 'C', 4);
+    lstree_add_val(&head, 'B', 5);
+    lstree_add_val(&head, 'F', 1);
+    lstree_add_val(&head, 'E', 2);
+    lstree_add_val(&head, 'D', 3);
+    lstree_add_val(&head, 'A', 6);
 
     puts("\x1b[94mprint freqs before\x1b[0m");
     lstree_print_freq(head);
@@ -41,7 +37,6 @@ int main()
     lstree_print_vals(head);
     puts("\x1b[94mprint chars before\x1b[0m");
     lstree_print_char(head);
-
 
     // lstree_bst_union(&head);
     puts("");
@@ -51,13 +46,12 @@ int main()
     print_tree(head);
     puts("");
 
-
     puts("\x1b[94mprint freqs\x1b[0m");
     lstree_print_freq(head);
     puts("\x1b[94mprint vals\x1b[0m");
     lstree_print_vals(head);
     puts("\x1b[94mprint chars\x1b[0m");
-    lstree_print_chars(head);
+    lstree_print_char(head);
 
     return 0;
 }

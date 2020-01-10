@@ -28,24 +28,12 @@ void ListInsertSorted(void** stn, void* stin, inters* ine)
     void* trail   = *stn;
 
     void* tmp;
-    int(*comparo)(const void*, const void*) = ine->compar;
     while ((tmp = ine->nextp(current)))
     {
         current = tmp;
 
         cmp  = ine->compar(stin, current);
         cmpe = ine->equcmp(stin, current);
-        // int tmpval;
-        // if ((tmpval = comparo(stin, current)) == 0)
-        // {
-        //     continue;
-        //     ine->compar = ine->equcmp;
-        // }
-        // else
-        // {
-        //     cmp = tmpval;
-        //     ine->compar = comparo;
-        // }
 
         if (cmp < 0 || (cmp == 0 && cmpe < 0))
         {
@@ -58,12 +46,7 @@ void ListInsertSorted(void** stn, void* stin, inters* ine)
             *innextptr       = current;
             return;
         }
-        else if (cmp == 0 && cmpe > 0)
-        {
 
-        }
-        
-        comparo(stin, current);
         trail = current;
     }
 

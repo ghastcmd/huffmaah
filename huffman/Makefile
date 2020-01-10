@@ -1,5 +1,5 @@
 target = bin
-src = huffman
+src = src
 bin = build
 inc = $(src)/headers
 pch = pch

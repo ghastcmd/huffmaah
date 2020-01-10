@@ -1,5 +1,11 @@
 #include "bsTree.h"
 
+/**
+ * @sts: standard token start
+ * @ste: standard token end
+ * @ine: interface equivalent
+ */
+
 void* TreeUnion(void* sts, void* ste, const inters_bst* ine)
 {
     void* new_data = ine->merge (sts, ste);
