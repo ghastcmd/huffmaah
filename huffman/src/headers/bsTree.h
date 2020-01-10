@@ -5,6 +5,7 @@
 typedef struct inters_bst
 {
     void*(*merge    )(const void*, const void*);
+    int(*get_val    )(const void*);
     void*(*create   )(const void*);
     void*(*leftp    )(const void*);
     void**(*leftptr )(const void*);
@@ -21,6 +22,14 @@ typedef struct inters_bst
  * @ret: pointer to created father
  */
 void* TreeUnion(void* sts, void* ste, const inters_bst* ine);
+
+/**
+ * @brief: executes a user-defined function for every values of tree in preorder
+ * @param sth: pointer of tree's root
+ * @param ine: interface struct
+ * @param foo: user-defined function to be executed
+ */
+void TreeForEachPreorder(void* sth, const inters_bst* ine, void(*foo)(const int));
 
 /**
  * @brief: prints Tree in preorder

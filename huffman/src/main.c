@@ -42,6 +42,7 @@ int main()
     lstree_bst_treeify(&head);
     
     lstree_bst_printf_preorder(head, "%c");
+    lstree_bst_print_preorder(head);
 
     puts("\x1b[94mprint freqs\x1b[0m");
     lstree_print_freq(head);

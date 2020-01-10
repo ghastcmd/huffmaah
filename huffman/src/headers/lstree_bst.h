@@ -18,8 +18,22 @@ void lstree_bst_union(lstree** head);
 void lstree_bst_treeify(lstree** head);
 
 /**
- * @brief: prints lstree tree in preorder
+ * @brief: prints lstree tree in preorder with char format
  * @param head: pointer to root of tree (a lstree root node)
  * @param fmt: format to be used in every print call
  */
 void lstree_bst_printf_preorder(lstree* head, const char* fmt);
+
+/**
+ * @brief: prints lstree tree in preorder
+ * @param head: pointer to root of tree (a lstree root node)
+ * @param fmt: format to be used in every print call
+ */
+void lstree_bst_print_preorder(lstree* head);
+
+/**
+ * @brief: executes a function in every lstree node in tree
+ * @param head: pointer to root of tree (a lstree root node)
+ * @param foo: user specified function to run for each value
+ */
+void lstree_bst_foreach_preorder(lstree* head, void(*foo)(const int));

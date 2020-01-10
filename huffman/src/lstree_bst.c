@@ -129,6 +129,7 @@ int get_val_bst(const void* stn)
 
 inters_bst ine_bst = (inters_bst)
 {
+    .get_val  = get_val_bst,
     .merge    = merge,
     .create   = create,
     .leftp    = leftp,
@@ -161,9 +162,20 @@ void lstree_bst_treeify(lstree** head)
     }
 }
 
+void lstree_bst_foreach_preorder(lstree* head, void(*foo)(const int))
+{
+    TreeForEachPreorder((void*)head, &ine_bst, foo);
+}
+
 void lstree_bst_printf_preorder(lstree* head)
 {
     const char* fmt = "%c";
     TreeFPrintPreorder((void*)head, &ine_bst, get_val_bst, fmt);
+    puts("");
+}
+
+void lstree_bst_print_preorder(lstree* head)
+{
+    TreePrintPreorder((void*)head, &ine_bst, get_val_bst);
     puts("");
 }

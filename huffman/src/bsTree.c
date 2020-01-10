@@ -1,4 +1,5 @@
 #include "bsTree.h"
+#include "structs.h"
 
 /**
  * @sts: standard token start
@@ -20,6 +21,14 @@ void* TreeUnion(void* sts, void* ste, const inters_bst* ine)
     return stnew;
 }
 
+void TreeForEachPreorder(void* sth, const inters_bst* ine, void(*foo)(const int))
+{
+    if (!sth) return;
+    foo(ine->get_val(sth));
+    TreeForEachPreorder(ine->leftp(sth) , ine, foo);
+    TreeForEachPreorder(ine->rightp(sth), ine, foo);
+}
+
 void TreePrintPreorder(void* sth, const inters_bst* ine, int(*get_val)(const void*))
 {
     if (!sth) return;
@@ -35,3 +44,4 @@ void TreeFPrintPreorder(void* sth, const inters_bst* ine, int(*get_val)(const vo
     TreeFPrintPreorder(ine->leftp(sth) , ine, get_val, fmt);
     TreeFPrintPreorder(ine->rightp(sth), ine, get_val, fmt);
 }
+
