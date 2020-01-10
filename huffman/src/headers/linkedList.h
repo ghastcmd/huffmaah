@@ -54,8 +54,9 @@ void ListFPrint(void* stn, int(*get_value)(const void*), void*(*nextp)(const voi
  * @brief: frees the memory of the list
  * @param stn: pointer to the list start
  * @param nextp: function that returs next pointer
+ * @param freest: frees the insides of node
  */
-void ListFree(void* stn, void*(*nextp)(const void*));
+void ListFree(void* stn, void*(*nextp)(const void*), void(*freest)(const void*));
 
 /**
  * @brief: remove first element of list and returns it

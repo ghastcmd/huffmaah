@@ -73,3 +73,19 @@ void TreeFPrintPreorder(void* sth, const inters_bst* ine, int(*get_val)(const vo
     TreeFPrintPreorder(ine->rightp(sth), ine, get_val, fmt);
 }
 
+void TreeFree(void* sth, const inters_bst* ine, void(*freest)(const void*))
+{
+    if (ine->leftp(sth))
+    {
+        TreeFree(ine->leftp(sth), ine, freest);
+        freest(sth);
+        free(sth);
+    }
+
+    if (ine->rightp(sth))
+    {
+        TreeFree(ine->rightp(sth), ine, freest);
+        freest(sth);
+        free(sth);
+    }
+}

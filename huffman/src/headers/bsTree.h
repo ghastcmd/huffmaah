@@ -55,3 +55,11 @@ void TreePrintPreorder(void* sth, const inters_bst* ine, int(*get_val)(const voi
  * @param fmt: format to be used in every print call
  */
 void TreeFPrintPreorder(void* sth, const inters_bst* ine, int(*get_val)(const void*), const char* fmt);
+
+/**
+ * @brief: frees the memory of entire tree
+ * @param sth: pointer to root of lstree tree
+ * @param ine: struct of interfaces to lstree
+ * @param freebst: clears the internals of lstree node
+ */
+void TreeFree(void* sth, const inters_bst* ine, void(*freebst)(const void*));

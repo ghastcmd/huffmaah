@@ -72,11 +72,12 @@ void ListFPrint(void* stn, int(*get_value)(const void*), void*(*nextp)(const voi
     }
 }
 
-void ListFree(void* stn, void*(*nextp)(const void*))
+void ListFree(void* stn, void*(*nextp)(const void*), void(*freest)(const void*))
 {
     if (stn)
     {
-        ListFree(nextp(stn), nextp);
+        ListFree(nextp(stn), nextp, freest);
+        freest(stn);
         free(stn);
     }
 }

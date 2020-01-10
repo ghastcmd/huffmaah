@@ -44,3 +44,10 @@ void lstree_bst_printf_preorder(lstree* head, const char* fmt);
  * @param fmt: format to be used in every print call
  */
 void lstree_bst_print_preorder(lstree* head);
+
+
+/**
+ * @brief: frees the memory of tree of lstree nodes
+ * @param head: lstree tree root pointer
+ */
+void lstree_clean_tree(lstree* head);

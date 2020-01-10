@@ -132,6 +132,16 @@ int get_val_bst(const void* stn)
 }
 
 /**
+ * @brief: frees the internals of lstree node
+ * @param stn: note pointer to root of lstree tree
+ */
+void freest_tree(const void* stn)
+{
+    lstree* stnr = (lstree*)stn;
+    free(stnr->val);
+}
+
+/**
  * * ****************************************** *
  * * Declaring local global interface structure *
  * * ****************************************** *
@@ -223,4 +233,9 @@ void lstree_bst_print_preorder(lstree* head)
 {
     TreePrintPreorder((void*)head, &ine_bst, get_val_bst);
     puts("");
+}
+
+void lstree_clean_tree(lstree* head)
+{
+    TreeFree((void*)head, &ine_bst, freest_tree);
 }

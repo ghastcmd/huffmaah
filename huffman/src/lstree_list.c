@@ -144,6 +144,16 @@ void** nextptr(const void* stn)
 }
 
 /**
+ * @brief: frees the internals of lstree node
+ * @param stn: lstree node pointer
+ */
+void freest(const void* stn)
+{
+    lstree* stnr = (lstree*)stn;
+    free(stnr->val);
+}
+
+/**
  * * ****************************************** *
  * * Declaring local-global interface structure *
  * * ****************************************** *
@@ -217,5 +227,5 @@ void* lstree_pop(lstree** headr)
 
 void lstree_clean_list(lstree* head)
 {
-    ListFree(head, nextp);
+    ListFree(head, nextp, freest);
 }
