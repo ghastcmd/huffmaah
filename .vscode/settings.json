@@ -2,7 +2,8 @@
     "files.associations": {
         "cmath": "c",
         "pch.h": "c",
-        "structs.h": "c"
+        "structs.h": "c",
+        "lstree_list.h": "c"
     },
     "editor.tabSize": 4,
     "C_Cpp.dimInactiveRegions": false

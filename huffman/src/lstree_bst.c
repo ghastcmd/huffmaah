@@ -184,7 +184,7 @@ void lstree_bst_treeify(lstree** head)
 
 lstree* lstree_bst_make_tree(const char* tree_fmt)
 {
-    int len = strlen(tree_fmt);
+    const int len = strlen(tree_fmt);
     lstree* root = nullptr;
     for (int i = 0; i < len; i++)
     {
