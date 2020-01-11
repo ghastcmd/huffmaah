@@ -19,8 +19,8 @@
  */
 typedef struct inters
 {
-    int  (*compar  )(const void*, const void*);
-    int  (*equcmp  )(const void*, const void*);
+    int64_t(*compar)(const void*, const void*);
+    int64_t(*equcmp)(const void*, const void*);
     void*(*nextp   )(const void*);
     void**(*nextptr)(const void*);
 } inters, interface;
@@ -39,7 +39,7 @@ void ListInsertSorted(void** stn, void* stin, inters* ine);
  * @param get_value: the get_value interface for stn structure
  * @param netp: gets the next pointer for stn structure
  */
-void ListPrint(void* stn, int(*get_value)(const void*), void*(*nextp)(const void*));
+void ListPrint(void* stn, int64_t(*get_value)(const void*), void*(*nextp)(const void*));
 
 /**
  * @brief: similar to ListPrint but with format param
@@ -48,7 +48,7 @@ void ListPrint(void* stn, int(*get_value)(const void*), void*(*nextp)(const void
  * @param get_value: the get_value interface for stn structure
  * @param netp: gets the next pointer for stn structure
  */
-void ListFPrint(void* stn, int(*get_value)(const void*), void*(*nextp)(const void*), const char* fmt);
+void ListFPrint(void* stn, int64_t(*get_value)(const void*), void*(*nextp)(const void*), const char* fmt);
 
 /**
  * @brief: frees the memory of the list
@@ -62,6 +62,7 @@ void ListFree(void* stn, void*(*nextp)(const void*), void(*freest)(const void*))
  * @brief: remove first element of list and returns it
  * @param stnr: pointer of pointer of head of list
  * @param nextp: function that returns next pointer
+ * @param nexptr: function that returns the next pointer by reference
  * @ret: pointer to start of list
  */
-void* ListPop(void** stnr, void*(*nextp)(const void*));
+void* ListPop(void** stnr, void*(*nextp)(const void*), void**(*nextptr)(const void*));

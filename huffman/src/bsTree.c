@@ -11,7 +11,7 @@ void* TreeUnion(void* sts, void* ste, const inters_bst* ine)
 {
     void* new_data = ine->merge (sts, ste);
     void* stnew    = ine->create(new_data);
-
+    free(new_data);
     void** newleftptr  = ine->leftptr (stnew);
     void** newrightptr = ine->rightptr(stnew);
     
@@ -78,14 +78,13 @@ void TreeFree(void* sth, const inters_bst* ine, void(*freest)(const void*))
     if (ine->leftp(sth))
     {
         TreeFree(ine->leftp(sth), ine, freest);
-        freest(sth);
-        free(sth);
     }
 
     if (ine->rightp(sth))
     {
         TreeFree(ine->rightp(sth), ine, freest);
-        freest(sth);
-        free(sth);
     }
+
+    freest(sth);
+    free(sth);
 }

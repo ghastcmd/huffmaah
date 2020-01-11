@@ -22,7 +22,7 @@
  * negative, zero and positive for 
  * lesser, equals and greater than respectively
  */
-int compare(const void* sts, const void* ste)
+int64_t compare(const void* sts, const void* ste)
 {
     lstree* st0v = (lstree*)sts;
     lstree* st1v = (lstree*)ste;
@@ -37,7 +37,7 @@ int compare(const void* sts, const void* ste)
  * @param st1: second lstree node
  * @ret: neg, zero, posi, for lesser, equ, greather
  */
-int equcmp(const void* sts, const void* ste)
+int64_t equcmp(const void* sts, const void* ste)
 {
     lstree* st0v = (lstree*)sts;
     lstree* st1v = (lstree*)ste;
@@ -52,7 +52,7 @@ int equcmp(const void* sts, const void* ste)
  * @param head: node pointer
  * @ret: current freq of node pointer 
  */
-int get_freq(const void* stn)
+int64_t get_freq(const void* stn)
 {
     lstree* cur = (lstree*)stn;
     return cur->freq;
@@ -62,10 +62,10 @@ int get_freq(const void* stn)
  * @param head: node pointer
  * @ret: current val of node pointer 
  */
-int get_val(const void* stn)
+int64_t get_val(const void* stn)
 {
     lstree* cur = (lstree*)stn;
-    int* value = (int*)cur->val;
+    int64_t* value = (int64_t*)cur->val;
     return *value;
 }
 
@@ -159,7 +159,7 @@ void freest(const void* stn)
  * * ****************************************** *
  */
 
-inters ine = (interface)
+inters ine =
 {
     .compar   = compare,
     .equcmp   = equcmp,
@@ -222,7 +222,7 @@ void lstree_add_node(lstree** headr, lstree* node)
 
 void* lstree_pop(lstree** headr)
 {
-    return ListPop((void**)headr, nextp);
+    return ListPop((void**)headr, nextp, nextptr);
 }
 
 void lstree_clean_list(lstree* head)

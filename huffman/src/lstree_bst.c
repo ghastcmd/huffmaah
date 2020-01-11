@@ -38,7 +38,7 @@ void* merge(const void* sts, const void* ste)
     lstree* stsr = (lstree*)sts;
     lstree* ster = (lstree*)ste;
     
-    tuple* retdata = (tuple*)calloc(2, sizeof(tuple));
+    tuple* retdata = (tuple*)calloc(1, sizeof(tuple));
 
     *retdata = (tuple)
     {
@@ -69,14 +69,14 @@ void* create(const void* std)
         logerr("malloc");
         exit(-1);
     }
-    *value = stt->st0;
+    *value = (int)stt->st0;
 
     *stnew = (lstree)
     {
         .val  = value,
         .freq = stt->st1
     };
-
+    
     return (void*)stnew;
 }
 
@@ -147,7 +147,7 @@ void freest_tree(const void* stn)
  * * ****************************************** *
  */
 
-inters_bst ine_bst = (inters_bst)
+inters_bst ine_bst =
 {
     .get_val  = get_val_bst,
     .merge    = merge,

@@ -45,12 +45,10 @@ int main()
     lstree_print_freq(head);
     lstree_print_vals(head);
 
-    // lstree_bst_treeify(&head);
+    lstree_bst_treeify(&head);
 
-    // lstree_bst_foreach_preorder(head, print_tree);
-    // puts("");
-
-    lstree_clean_list(head);
+    lstree_bst_foreach_preorder(head, print_tree);
+    puts("");
 
     lstree_clean_tree(head);
 
