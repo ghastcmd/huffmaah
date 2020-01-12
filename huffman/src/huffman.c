@@ -3,7 +3,7 @@
 #include "lstree_bst.h"
 #include "structs.h"
 
-void print_huffman(const int val)
+void print_huffman(const int64_t val)
 {
     char chr[3] = { 0 };
     chr[0] = val;
@@ -82,22 +82,25 @@ int64_t _ret_revbin_len(int64_t bin, uint8_t len)
 
 lstree* read_dir_lstree(const char* pathname, int64_t* num)
 {
-    FILE* file = fopen(pathname, "rb");
+    FILE* file = fopen(pathname, "r");
     if (!file)
     {
         logerr("fopen");
         exit(-1);
     }
+    puts("opened file");
 
     lstree* head = nullptr;
-    int8_t al;
+    uint8_t al;
 
-    while ((al = fgetc(file)) != EOF)
+    while (fscanf(file, "%c", &al) != EOF)
     {
         num[(unsigned int)al] += 1;
     }
+    puts("closing file");
     fclose(file);
 
+    puts("creating tree...");
     for (int i = 0; i < 256; i++)
     {
         if (num[i] > 0)
@@ -107,6 +110,7 @@ lstree* read_dir_lstree(const char* pathname, int64_t* num)
     }
 
     lstree_bst_treeify(&head);  
+    puts("created successfully");
 
     return head;
 }
@@ -134,19 +138,35 @@ void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const ch
     FILE* filein = fopen(infile,  "r+");
     FILE* file   = fopen(outfile, "w+");
 
+    puts("writing len of file");
     fprintf(file, "%c%c", (char)lens[256] & 0xf0, (char)lens[256] & 0x0f);
 
-    uint8_t i = 0, idx = 0;
-    char chr;
+    puts("writing data to file");
+    uint8_t i = 0;
+    uint64_t idx = 0;
+    int8_t chr = 0;
     int8_t byte = 0;
     bool already = false;
-    while ((chr = fgetc(filein)) != EOF)
+
+    fseek(filein, 0, SEEK_END);
+    size_t fsize = ftell(filein); // getting the size of the file
+    rewind(filein);
+
+    uint64_t factor = fsize / 20;
+    while(fsize--)
     {
-        int64_t len = lens[(unsigned int)chr];
+        fscanf(filein, "%c", &chr);
+        if (ferror(filein))
+        {
+            logerr("fscanf");
+            puts("pau nas quebrada");
+        }
+        // printf("%02X ", chr);
+        int64_t len = lens[(uint8_t)chr];
         i = 0;
         while(len--)
         {
-            byte = byte << 1 | ((bins[(unsigned int)chr] >> i) & 1);
+            byte = byte << 1 | (int8_t)((bins[(uint8_t)chr] >> i) & 1);
             i++;
             idx++;
             if (idx % 8 == 0)
@@ -155,6 +175,11 @@ void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const ch
                 already = true;
                 byte = 0;
             }
+        }
+
+        if (idx % factor == 0)
+        {
+            printf("#");
         }
 
         if (idx % 8 == 0 && !already)
@@ -186,13 +211,25 @@ void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const ch
 
 void rw_dir_lstree(const char* infile, const char* outfile)
 {
-    int64_t num[256] = { 0 };
+    int64_t* num = (int64_t*)calloc(257, sizeof(int64_t));
+    puts("opening file");
     lstree* head = read_dir_lstree(infile, num);
-    int64_t bins[256] = { 0 };
+    
+    puts("made tree successfully");
+    int64_t* bins = (int64_t*)calloc(257, sizeof(int64_t));
     parse_tree_toarr(head, num, bins);
+
+
+    puts("transfered values from tree to arrays");
     lstree_clean_tree(head);
+    puts("successfully free'd memory from tree");
 
     write_dir_lstree(bins, num, infile, outfile);
+    puts("\nsuccessfully writen values to file");
+    puts("freeing memory...");
+    free(num);
+    free(bins);
+    puts("free'd memory");
 }
 
 void print_lstree(lstree* head)

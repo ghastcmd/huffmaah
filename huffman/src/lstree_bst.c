@@ -1,6 +1,7 @@
 #include "linkedList.h"
 #include "lstree_list.h"
 #include "bsTree.h"
+#include "defines.h"
 #include "structs.h"
 
 /**
@@ -40,11 +41,8 @@ void* merge(const void* sts, const void* ste)
     
     tuple* retdata = (tuple*)calloc(1, sizeof(tuple));
 
-    *retdata = (tuple)
-    {
-        .st0 = FLAG,
-        .st1 = stsr->freq + ster->freq
-    };
+    retdata->st0 = FLAG;
+    retdata->st1 = stsr->freq + ster->freq;
 
     return (void*)retdata;
 }
@@ -195,7 +193,7 @@ lstree* lstree_bst_make_tree(const char* tree_fmt)
             exit(-1);
         }
 
-        int* chr = (int*)malloc(sizeof(int));
+        int64_t* chr = (int64_t*)malloc(sizeof(int64_t));
         if (!chr)
         {
             logerr("malloc");
@@ -217,7 +215,7 @@ lstree* lstree_bst_make_tree(const char* tree_fmt)
     return root;
 }
 
-void lstree_bst_foreach_preorder(lstree* head, void(*foo)(const int))
+void lstree_bst_foreach_preorder(lstree* head, void(*foo)(const int64_t))
 {
     TreeForEachPreorder((void*)head, &ine_bst, foo);
 }

@@ -37,7 +37,7 @@ void TreeAdd(void** sth, void* stin, const inters_bst* ine);
  * @param ine: interface struct
  * @param foo: user-defined function to be executed
  */
-void TreeForEachPreorder(void* sth, const inters_bst* ine, void(*foo)(const int));
+void TreeForEachPreorder(void* sth, const inters_bst* ine, void(*foo)(const int64_t));
 
 /**
  * @brief: executes a user-defined function for every values of tree and void* in preorder

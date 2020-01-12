@@ -49,7 +49,7 @@ void TreeAdd(void** sth, void* stin, const inters_bst* ine)
     TreeAdd_holder(sth, stin, ine, &found);
 }
 
-void TreeForEachPreorder(void* sth, const inters_bst* ine, void(*foo)(const int))
+void TreeForEachPreorder(void* sth, const inters_bst* ine, void(*foo)(const int64_t))
 {
     if (!sth) return;
     foo(ine->get_val(sth));

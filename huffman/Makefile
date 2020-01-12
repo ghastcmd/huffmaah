@@ -37,7 +37,7 @@ clean:
 
 valgrind: $(object)
 	$(cc) $(object) $(flags) $(flags_dgb) -o $(bin)/$(target)
-	valgrind --leak-check=full $(bin)/$(target)
+	valgrind --leak-check=full --show-leak-kinds=all $(bin)/$(target)
 
 plot:
 	Rscript ./plot/script.r

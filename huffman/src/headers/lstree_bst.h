@@ -29,7 +29,7 @@ lstree* lstree_bst_make_tree(const char* tree_fmt);
  * @param head: pointer to root of tree (a lstree root node)
  * @param foo: user specified function to run for each value
  */
-void lstree_bst_foreach_preorder(lstree* head, void(*foo)(const int));
+void lstree_bst_foreach_preorder(lstree* head, void(*foo)(const int64_t));
 
 /**
  * @brief: executes a function in every lstree node in tree with void* param

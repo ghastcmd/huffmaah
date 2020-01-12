@@ -6,4 +6,4 @@
     __FILE__, line, __func__, msg, strerror(errno));\
 }
 
-#define FLAG 0x8f000000
+#define FLAG 0x8000000000000000

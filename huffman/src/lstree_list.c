@@ -42,8 +42,8 @@ int64_t equcmp(const void* sts, const void* ste)
     lstree* st0v = (lstree*)sts;
     lstree* st1v = (lstree*)ste;
 
-    int* st0vp = (int*)st0v->val;
-    int* st1vp = (int*)st1v->val;
+    int64_t* st0vp = (int64_t*)st0v->val;
+    int64_t* st1vp = (int64_t*)st1v->val;
 
     return *st0vp - *st1vp;
 }
@@ -189,7 +189,7 @@ void lstree_print_char(lstree* head)
     puts("");
 }
 
-void lstree_add_val(lstree** headr, int val, int freq)
+void lstree_add_val(lstree** headr, int val, int64_t freq)
 {
     // printf("\x1b[92mInserting:\x1b[94m %i %i\x1b[0m\n", val, freq);
     lstree* stin = (lstree*)calloc(1, sizeof(lstree));
