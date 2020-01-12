@@ -40,6 +40,15 @@ void TreeAdd(void** sth, void* stin, const inters_bst* ine);
 void TreeForEachPreorder(void* sth, const inters_bst* ine, void(*foo)(const int));
 
 /**
+ * @brief: executes a user-defined function for every values of tree and void* in preorder
+ * @param sth: pointer of tree's root
+ * @param ine: interface struct
+ * @param foo: user-defined function to be executed
+ * @param stp: void* param to be used in foo function
+ */
+void TreeForEachPreorderWParam(void* sth, const inters_bst* ine, void(*foo)(const int, void*), void* stp);
+
+/**
  * @brief: prints Tree in preorder
  * @param sth: pointer to root of tree
  * @param ine: struct of interfaces

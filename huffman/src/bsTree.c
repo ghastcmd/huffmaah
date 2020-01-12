@@ -57,6 +57,14 @@ void TreeForEachPreorder(void* sth, const inters_bst* ine, void(*foo)(const int)
     TreeForEachPreorder(ine->rightp(sth), ine, foo);
 }
 
+void TreeForEachPreorderWParam(void* sth, const inters_bst* ine, void(*foo)(const int, void*), void* stp)
+{
+    if (!sth) return;
+    foo(ine->get_val(sth), stp);
+    TreeForEachPreorderWParam(ine->leftp(sth) , ine, foo, stp);
+    TreeForEachPreorderWParam(ine->rightp(sth), ine, foo, stp);
+}
+
 void TreePrintPreorder(void* sth, const inters_bst* ine, int(*get_val)(const void*))
 {
     if (!sth) return;

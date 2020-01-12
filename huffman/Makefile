@@ -5,6 +5,7 @@ inc = $(src)/headers
 pch = pch
 cc = gcc
 flags = -Wall -Werror
+flags_dbg = -g
 
 source = $(wildcard $(src)/*.c)
 object = $(patsubst %,$(bin)/%, $(notdir $(source:.c=.o)))
@@ -34,5 +35,14 @@ dirs:
 clean:
 	rm build/*
 
+valgrind: $(object)
+	$(cc) $(object) $(flags) $(flags_dgb) -o $(bin)/$(target)
+	valgrind --leak-check=full $(bin)/$(target)
+
 plot:
 	Rscript ./plot/script.r
+
+help:
+	@echo "Commands:"
+	@echo "build    run    dirs"
+	@echo "clean    valgrind    plot"

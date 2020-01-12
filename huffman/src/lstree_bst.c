@@ -222,6 +222,11 @@ void lstree_bst_foreach_preorder(lstree* head, void(*foo)(const int))
     TreeForEachPreorder((void*)head, &ine_bst, foo);
 }
 
+void lstree_bst_foreach_wparam_preorder(lstree* head, void(*foo)(const int, void*), void* stp)
+{
+    TreeForEachPreorderWParam((void*)head, &ine_bst, foo, stp);
+}
+
 void lstree_bst_printf_preorder(lstree* head)
 {
     const char* fmt = "%c";

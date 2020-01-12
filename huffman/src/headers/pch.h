@@ -5,6 +5,7 @@
 #include <string.h>
 #include <errno.h>
 #include <stdbool.h>
+#include <inttypes.h>
 
 #ifdef _U16M
 #include <io.h>

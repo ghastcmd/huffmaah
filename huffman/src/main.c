@@ -11,11 +11,7 @@ int main()
     _setmode(_fileno(stdout), _O_U16TEXT);
     #endif
 
-    lstree* head = read_dir("test.txt");
+    rw_dir_lstree("test.txt");
 
-    print_lstree(head);
-
-    clean_lstree(head);
-    
     return 0;
 }
