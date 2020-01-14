@@ -88,19 +88,33 @@ lstree* read_dir_lstree(const char* pathname, int64_t* num)
         logerr("fopen");
         exit(-1);
     }
-    puts("opened file");
 
     lstree* head = nullptr;
     uint8_t al;
 
-    while (fscanf(file, "%c", &al) != EOF)
+    fseek(file, 0, SEEK_END);
+    size_t fsize = ftell(file);
+    rewind(file);
+
+    int64_t step = fsize / 25;
+    step = step == 0 ? 1 : step;
+
+    puts(YC"/Getting frequency of bytes\\"ZC);
+    puts(BWC" --------------------------"GC);
+    putchar(' ');
+    while (fsize--)
     {
+        if (fsize % step == 0)
+        {
+            putchar('#');
+        }
+        al = fgetc(file);
         num[(unsigned int)al] += 1;
     }
-    puts("closing file");
+    puts(BWC"\nClosing file");
     fclose(file);
 
-    puts("creating tree...");
+    puts(BMC"Creating tree...");
     for (int i = 0; i < 256; i++)
     {
         if (num[i] > 0)
@@ -110,7 +124,7 @@ lstree* read_dir_lstree(const char* pathname, int64_t* num)
     }
 
     lstree_bst_treeify(&head);  
-    puts("created successfully");
+    puts(BGC"Created successfully"ZC);
 
     return head;
 }
@@ -138,10 +152,10 @@ void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const ch
     FILE* filein = fopen(infile,  "r+");
     FILE* file   = fopen(outfile, "w+");
 
-    puts("writing len of file");
+    puts(BBC"Writing len of file");
     fprintf(file, "%c%c", (char)lens[256] & 0xf0, (char)lens[256] & 0x0f);
 
-    puts("writing data to file");
+    puts("Writing data to file"ZC);
     uint8_t i = 0;
     uint64_t idx = 0;
     int8_t chr = 0;
@@ -149,19 +163,19 @@ void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const ch
     bool already = false;
 
     fseek(filein, 0, SEEK_END);
-    size_t fsize = ftell(filein); // getting the size of the file
+    uint64_t fsize = ftell(filein); // getting the size of the file
     rewind(filein);
 
-    uint64_t factor = fsize / 20;
+    printf(BMC"File size: "BGC"%"PRIu64""BMC" bytes\n"ZC, fsize);
+
+    puts(YC"/Writing data to output file\\"BC);
+    puts(BWC" ---------------------------"GC);
+    putchar(' ');
+    int64_t step = (int64_t)fsize / (int64_t)26;
+    step = step == 0 ? 1 : step;
     while(fsize--)
     {
-        fscanf(filein, "%c", &chr);
-        if (ferror(filein))
-        {
-            logerr("fscanf");
-            puts("pau nas quebrada");
-        }
-        // printf("%02X ", chr);
+        chr = fgetc(filein);
         int64_t len = lens[(uint8_t)chr];
         i = 0;
         while(len--)
@@ -177,9 +191,9 @@ void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const ch
             }
         }
 
-        if (idx % factor == 0)
+        if (fsize % step == 0)
         {
-            printf("#");
+            putchar('#');
         }
 
         if (idx % 8 == 0 && !already)
@@ -193,6 +207,7 @@ void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const ch
         }
     }
 
+    puts(BMC"\nWriting trash bytes"ZC);
     int8_t trash = 0;
     if (idx % 8 != 0)
     {
@@ -205,6 +220,7 @@ void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const ch
     rewind(file);
     fprintf(file, "%c", tmp | (trash << 5));
 
+    puts("Closing files...");
     fclose(filein);
     fclose(file);
 }
@@ -212,24 +228,23 @@ void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const ch
 void rw_dir_lstree(const char* infile, const char* outfile)
 {
     int64_t* num = (int64_t*)calloc(257, sizeof(int64_t));
-    puts("opening file");
+    puts("Opening file");
     lstree* head = read_dir_lstree(infile, num);
     
-    puts("made tree successfully");
     int64_t* bins = (int64_t*)calloc(257, sizeof(int64_t));
     parse_tree_toarr(head, num, bins);
 
 
-    puts("transfered values from tree to arrays");
+    puts(BBC"Transfered values from tree to arrays"ZC);
     lstree_clean_tree(head);
-    puts("successfully free'd memory from tree");
+    puts(GC"Successfully free'd memory from tree"ZC);
 
     write_dir_lstree(bins, num, infile, outfile);
-    puts("\nsuccessfully writen values to file");
-    puts("freeing memory...");
+    puts(GC"Successfully writen values to file"ZC);
+    puts(BMC"Freeing memory..."ZC);
     free(num);
     free(bins);
-    puts("free'd memory");
+    puts(BGC"* Compression was successfully executed *"ZC);
 }
 
 void print_lstree(lstree* head)
