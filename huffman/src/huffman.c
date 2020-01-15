@@ -80,12 +80,44 @@ int64_t _ret_revbin_len(int64_t bin, uint8_t len)
     return ret;
 }
 
+void upbar(const int len, const int size, const char* color)
+{
+    char buffer[512];
+    int i = 0;
+    for (i = 0; i < size; i++)
+    {
+        buffer[i] = '\b';
+    }
+    {
+        size_t clen = strlen(color);
+        memcpy(buffer + i, color, clen);
+        i += clen;
+    }
+    for (int j = 0; j < len; j++, i++)
+    {
+        buffer[i] = 219;
+    }
+    {
+        size_t clen = strlen(WC); 
+        memcpy(buffer + i, WC, clen);
+        i += clen;
+    }
+    for (int j = size - 1; j > len; j--, i++)
+    {
+        // buffer[i] = '-';
+        buffer[i] = 221;
+    }
+    buffer[i] = 0;
+    printf(buffer);
+}
+
 lstree* read_dir_lstree(const char* pathname, int64_t* num)
 {
     FILE* file = fopen(pathname, "r");
     if (!file)
     {
-        logerr("fopen");
+        logerr_n("fopen");
+        printf(YC" '%s'\n"ZC, pathname);
         exit(-1);
     }
 
@@ -96,21 +128,20 @@ lstree* read_dir_lstree(const char* pathname, int64_t* num)
     size_t fsize = ftell(file);
     rewind(file);
 
-    int64_t step = fsize / 25;
+    int step = fsize / 50;
     step = step == 0 ? 1 : step;
-
-    puts(YC"/Getting frequency of bytes\\"ZC);
-    puts(BWC" --------------------------"GC);
-    putchar(' ');
+    int len = 0, size = fsize / step;
+    puts(YC"/Getting frequency of bytes\\"WC);
     while (fsize--)
     {
         if (fsize % step == 0)
         {
-            putchar('#');
+            upbar(len++, size, WC);
         }
         al = fgetc(file);
         num[(unsigned int)al] += 1;
     }
+    upbar(len-1, size, GC);
     puts(BWC"\nClosing file");
     fclose(file);
 
@@ -124,7 +155,7 @@ lstree* read_dir_lstree(const char* pathname, int64_t* num)
     }
 
     lstree_bst_treeify(&head);  
-    puts(BGC"Created successfully"ZC);
+    puts(GC"Created successfully"ZC);
 
     return head;
 }
@@ -150,7 +181,19 @@ void parse_tree_toarr(lstree* head, int64_t* num, int64_t* vals)
 void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const char* outfile)
 {
     FILE* filein = fopen(infile,  "r+");
+    if (!filein)
+    {
+        logerr_n("fopen");
+        printf(YC" '%s'\n"ZC, infile);
+        exit(-1);
+    }
     FILE* file   = fopen(outfile, "w+");
+    if (!file)
+    {
+        logerr_n("fopen");
+        printf(YC" '%s'\n"ZC, outfile);
+        exit(-1);
+    }
 
     puts(BBC"Writing len of file");
     fprintf(file, "%c%c", (char)lens[256] & 0xf0, (char)lens[256] & 0x0f);
@@ -158,8 +201,7 @@ void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const ch
     puts("Writing data to file"ZC);
     uint8_t i = 0;
     uint64_t idx = 0;
-    int8_t chr = 0;
-    int8_t byte = 0;
+    int8_t chr = 0, byte = 0;
     bool already = false;
 
     fseek(filein, 0, SEEK_END);
@@ -169,10 +211,9 @@ void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const ch
     printf(BMC"File size: "BGC"%"PRIu64""BMC" bytes\n"ZC, fsize);
 
     puts(YC"/Writing data to output file\\"BC);
-    puts(BWC" ---------------------------"GC);
-    putchar(' ');
-    int64_t step = (int64_t)fsize / (int64_t)26;
+    int64_t step = (int64_t)fsize / (int64_t)50;
     step = step == 0 ? 1 : step;
+    int barlen = 0, size = fsize / step;
     while(fsize--)
     {
         chr = fgetc(filein);
@@ -193,7 +234,7 @@ void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const ch
 
         if (fsize % step == 0)
         {
-            putchar('#');
+            upbar(barlen++, size, WC);
         }
 
         if (idx % 8 == 0 && !already)
@@ -206,6 +247,7 @@ void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const ch
             already = false;
         }
     }
+    upbar(barlen-1, size, GC);
 
     puts(BMC"\nWriting trash bytes"ZC);
     int8_t trash = 0;
