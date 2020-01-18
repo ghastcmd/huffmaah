@@ -7,6 +7,7 @@ void print_huffman(const int64_t val)
 {
     char chr[3] = { 0 };
     chr[0] = val;
+    // printf("-%"PRId64"-", val);
     switch(val)
     {
     case FLAG:
@@ -21,7 +22,7 @@ void print_huffman(const int64_t val)
     printf("%s", chr);
 }
 
-void len_tree(const int val, void* param)
+void len_tree(const int64_t val, void* param)
 {
     int* len = (int*)param;
     *len += 1;
@@ -154,7 +155,7 @@ lstree* read_dir_lstree(const char* pathname, int64_t* num)
         }
     }
 
-    lstree_bst_treeify(&head);  
+    lstree_bst_treeify(&head);    
     puts(GC"Created successfully"ZC);
 
     return head;
@@ -272,10 +273,9 @@ void rw_dir_lstree(const char* infile, const char* outfile)
     int64_t* num = (int64_t*)calloc(257, sizeof(int64_t));
     puts("Opening file");
     lstree* head = read_dir_lstree(infile, num);
-    
+
     int64_t* bins = (int64_t*)calloc(257, sizeof(int64_t));
     parse_tree_toarr(head, num, bins);
-
 
     puts(BBC"Transfered values from tree to arrays"ZC);
     lstree_clean_tree(head);

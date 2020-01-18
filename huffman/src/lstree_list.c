@@ -27,7 +27,17 @@ int64_t compare(const void* sts, const void* ste)
     lstree* st0v = (lstree*)sts;
     lstree* st1v = (lstree*)ste;
 
-    return st0v->freq - st1v->freq;
+    int64_t val = st0v->freq - st1v->freq;
+    if(val == 0)
+    {
+        int64_t* st0vp = (int64_t*)st0v->val;
+        int64_t* st1vp = (int64_t*)st1v->val;
+        return (*st0vp - *st1vp);
+    }
+    else
+    {
+        return val;
+    }
 }
 
 /**
@@ -37,6 +47,9 @@ int64_t compare(const void* sts, const void* ste)
  * @param st1: second lstree node
  * @ret: neg, zero, posi, for lesser, equ, greather
  */
+// ! ######################## !
+// ! #####    UNUSED    ##### !
+// ! ######################## !
 int64_t equcmp(const void* sts, const void* ste)
 {
     lstree* st0v = (lstree*)sts;
@@ -162,7 +175,7 @@ void freest(const void* stn)
 inters ine =
 {
     .compar   = compare,
-    .equcmp   = equcmp,
+    // .equcmp   = equcmp,
     .nextp    = nextp,
     .nextptr  = nextptr,
 };

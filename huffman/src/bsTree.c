@@ -52,12 +52,13 @@ void TreeAdd(void** sth, void* stin, const inters_bst* ine)
 void TreeForEachPreorder(void* sth, const inters_bst* ine, void(*foo)(const int64_t))
 {
     if (!sth) return;
+    // printf("\n%"PRId64"\n", ine->get_val(sth));
     foo(ine->get_val(sth));
     TreeForEachPreorder(ine->leftp(sth) , ine, foo);
     TreeForEachPreorder(ine->rightp(sth), ine, foo);
 }
 
-void TreeForEachPreorderWParam(void* sth, const inters_bst* ine, void(*foo)(const int, void*), void* stp)
+void TreeForEachPreorderWParam(void* sth, const inters_bst* ine, void(*foo)(const int64_t, void*), void* stp)
 {
     if (!sth) return;
     foo(ine->get_val(sth), stp);
@@ -65,15 +66,15 @@ void TreeForEachPreorderWParam(void* sth, const inters_bst* ine, void(*foo)(cons
     TreeForEachPreorderWParam(ine->rightp(sth), ine, foo, stp);
 }
 
-void TreePrintPreorder(void* sth, const inters_bst* ine, int(*get_val)(const void*))
+void TreePrintPreorder(void* sth, const inters_bst* ine, int64_t(*get_val)(const void*))
 {
     if (!sth) return;
-    printf("%i ", get_val(sth));
+    printf("%"PRId64" ", get_val(sth));
     TreePrintPreorder(ine->leftp(sth) , ine, get_val);
     TreePrintPreorder(ine->rightp(sth), ine, get_val);
 }
 
-void TreeFPrintPreorder(void* sth, const inters_bst* ine, int(*get_val)(const void*), const char* fmt)
+void TreeFPrintPreorder(void* sth, const inters_bst* ine, int64_t(*get_val)(const void*), const char* fmt)
 {
     if (!sth) return;
     printf(fmt, get_val(sth));

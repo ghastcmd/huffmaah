@@ -32,4 +32,4 @@
 
 #define ZC "\x1b[0m"
 
-#define FLAG 0x8000000000000000
+#define FLAG 0x8fff000000000000

@@ -37,7 +37,7 @@ void lstree_bst_foreach_preorder(lstree* head, void(*foo)(const int64_t));
  * @param foo: user specified function to run for each value
  * @param stp: void pointer to param
  */
-void lstree_bst_foreach_wparam_preorder(lstree* head, void(*foo)(const int, void*), void* stp);
+void lstree_bst_foreach_wparam_preorder(lstree* head, void(*foo)(const int64_t, void*), void* stp);
 
 /**
  * @brief: prints lstree tree in preorder with char format

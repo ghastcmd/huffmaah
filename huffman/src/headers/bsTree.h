@@ -5,7 +5,7 @@
 typedef struct inters_bst
 {
     void*(*merge    )(const void*, const void*);
-    int(*get_val    )(const void*);
+    int64_t(*get_val)(const void*);
     void*(*create   )(const void*);
     void*(*leftp    )(const void*);
     void**(*leftptr )(const void*);
@@ -46,7 +46,7 @@ void TreeForEachPreorder(void* sth, const inters_bst* ine, void(*foo)(const int6
  * @param foo: user-defined function to be executed
  * @param stp: void* param to be used in foo function
  */
-void TreeForEachPreorderWParam(void* sth, const inters_bst* ine, void(*foo)(const int, void*), void* stp);
+void TreeForEachPreorderWParam(void* sth, const inters_bst* ine, void(*foo)(const int64_t, void*), void* stp);
 
 /**
  * @brief: prints Tree in preorder
@@ -54,7 +54,7 @@ void TreeForEachPreorderWParam(void* sth, const inters_bst* ine, void(*foo)(cons
  * @param ine: struct of interfaces
  * @param get_val: function that returns the value to be printed
  */
-void TreePrintPreorder(void* sth, const inters_bst* ine, int(*get_val)(const void*));
+void TreePrintPreorder(void* sth, const inters_bst* ine, int64_t(*get_val)(const void*));
 
 /**
  * @brief: prints Tree in preorder with formated output
@@ -63,7 +63,7 @@ void TreePrintPreorder(void* sth, const inters_bst* ine, int(*get_val)(const voi
  * @param get_val: function that returns the value to be printed
  * @param fmt: format to be used in every print call
  */
-void TreeFPrintPreorder(void* sth, const inters_bst* ine, int(*get_val)(const void*), const char* fmt);
+void TreeFPrintPreorder(void* sth, const inters_bst* ine, int64_t(*get_val)(const void*), const char* fmt);
 
 /**
  * @brief: frees the memory of entire tree

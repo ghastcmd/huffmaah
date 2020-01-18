@@ -53,7 +53,7 @@ void* merge(const void* sts, const void* ste)
  */
 void* create(const void* std)
 {
-    tuple* stt    = (tuple*)std;
+    tuple* stt    = (tuple* )std;
     lstree* stnew = (lstree*)calloc(1, sizeof(lstree));
     if (!stnew)
     {
@@ -61,13 +61,13 @@ void* create(const void* std)
         exit(-1);
     }
 
-    int* value = (int*)malloc(sizeof(int));
+    int64_t* value = (int64_t*)malloc(sizeof(int64_t));
     if (!value)
     {
         logerr("malloc");
         exit(-1);
     }
-    *value = (int)stt->st0;
+    *value = (int64_t)stt->st0;
 
     *stnew = (lstree)
     {
@@ -122,10 +122,10 @@ void** rightptr(const void* stn)
  * @param stn: pointer to lstree node
  * @ret: .val value of input node
  */
-int get_val_bst(const void* stn)
+int64_t get_val_bst(const void* stn)
 {
     lstree* stnp = (lstree*)stn;
-    int* value = (int*)stnp->val;
+    int64_t* value = (int64_t*)stnp->val;
     return *value;
 }
 
@@ -220,7 +220,7 @@ void lstree_bst_foreach_preorder(lstree* head, void(*foo)(const int64_t))
     TreeForEachPreorder((void*)head, &ine_bst, foo);
 }
 
-void lstree_bst_foreach_wparam_preorder(lstree* head, void(*foo)(const int, void*), void* stp)
+void lstree_bst_foreach_wparam_preorder(lstree* head, void(*foo)(const int64_t, void*), void* stp)
 {
     TreeForEachPreorderWParam((void*)head, &ine_bst, foo, stp);
 }

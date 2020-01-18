@@ -7,9 +7,7 @@ void ListInsertSorted(void** stn, void* stin, inters* ine)
         *stn = stin;
         return;
     }
-    int64_t cmp  = ine->compar(stin, *stn);
-    int64_t cmpe = ine->equcmp(stin, *stn);
-    if (cmp < 0 || (cmp == 0 && cmpe < 0))
+    if (ine->compar(stin, *stn) < 0)
     {
         // * ************************ *
         // *    put stin before stn   *
@@ -28,10 +26,7 @@ void ListInsertSorted(void** stn, void* stin, inters* ine)
     {
         current = tmp;
 
-        cmp  = ine->compar(stin, current);
-        cmpe = ine->equcmp(stin, current);
-
-        if (cmp < 0 || (cmp == 0 && cmpe < 0))
+        if (ine->compar(stin, current) < 0)
         {
             // * ************************** *
             // *  stick stin where it fits  *
