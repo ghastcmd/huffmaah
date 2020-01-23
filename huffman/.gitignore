@@ -2,3 +2,6 @@ build/
 *.exe
 *.msi
 *.stackdump
+
+vendor/*/obj/
+vendor/*/lib/

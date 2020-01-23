@@ -2,6 +2,8 @@
 #include "structs.h"
 #include "huffman.h"
 
+#include "CUnit/CUnit.h"
+
 int main()
 {
     #ifdef _WIN32
