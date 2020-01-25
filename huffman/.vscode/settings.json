@@ -4,7 +4,8 @@
     "stdio.h": "c",
     "stdlib.h": "c",
     "errno.h": "c",
-    "fcntl.h": "c"
+    "fcntl.h": "c",
+    "huffenco.h": "c"
   },
   "editor.tabSize": 4
 }

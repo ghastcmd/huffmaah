@@ -1,6 +1,6 @@
 #include <pch.h>
 #include "structs.h"
-#include "huffman.h"
+#include "huffenco.h"
 
 #include "CUnit/CUnit.h"
 

@@ -1,4 +1,4 @@
-#include "huffman.h"
+#include "huffenco.h"
 #include "lstree_list.h"
 #include "lstree_bst.h"
 #include "structs.h"
@@ -171,7 +171,7 @@ void upbar(const int len, const int size, const char* color)
 lstree* read_dir_lstree(const char* pathname, int64_t* num)
 {
     FILE* file = fopen(pathname, "rb");
-    logerr_fopen(file, pathname);
+    logerr_fopen(file, pathname, free(num));
 
     lstree* head = nullptr;
     uint8_t al = 0;
@@ -252,12 +252,12 @@ void parse_tree_toarr(lstree* head, int64_t* num, int64_t* vals)
 void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const char* outfile, lstree* head)
 {
     FILE* filein = fopen(infile, "rb");
-    logerr_fopen(filein, infile); // error checking for fopen
+    logerr_fopen(filein, infile, free(bins); free(lens)); // error checking for fopen
     
     FILE* file = fopen(outfile, "wb+");
-    logerr_fopen(file, outfile); // error checking for fopen
+    logerr_fopen(file, outfile, free(bins); free(lens)); // error checking for fopen
 
-    puts(BBC"Writing len of file");
+    puts(BBC"Writing len of tree to file");
     fprintf(file, "%c%c", (char)lens[256] & 0xf0, (char)lens[256] & 0x0f);
 
     puts("Writing tree to file"ZC);
@@ -328,10 +328,11 @@ void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const ch
     // Writes the trash into the first byte of file
     fprintf(file, "%c", tmp | (trash << 5));
 
+    puts("Closing files...");
+
     fseek(file, 0, SEEK_END);
     printf(BMC"Output file size: "BGC"%"PRId64""BMC" bytes\n"ZC, (int64_t)ftell(file));
 
-    puts("Closing files...");
     fclose(filein);
     fclose(file);
 }
@@ -343,11 +344,16 @@ void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const ch
  */
 void rw_dir_lstree(const char* infile, const char* outfile)
 {
-    int64_t* num = (int64_t*)calloc(257, sizeof(int64_t));
+    int64_t* num = (int64_t*)calloc(256, sizeof(int64_t));
+    logerr_calloc(num,);
+
+    printf("Compressing %s to output %s", infile, outfile);
     puts("Opening file");
     lstree* head = read_dir_lstree(infile, num);
 
-    int64_t* bins = (int64_t*)calloc(257, sizeof(int64_t));
+    int64_t* bins = (int64_t*)calloc(256, sizeof(int64_t));
+    logerr_calloc(bins, free(num));
+
     parse_tree_toarr(head, num, bins);
     puts(BBC"Transfered values from tree to arrays"ZC);
 

@@ -12,11 +12,21 @@
     __FILE__, line, __func__, msg, strerror(errno));\
 }
 
-#define logerr_fopen(file, pathname) {\
+#define logerr_fopen(file, pathname, clns) {\
     if (!file)\
     {\
         logerr_n("fopen");\
         printf(YC" '%s'\n"ZC, pathname);\
+        clns;\
+        exit(-1);\
+    }\
+}
+
+#define logerr_calloc(pointer, clns) {\
+    if (!pointer)\
+    {\
+        logerr("calloc");\
+        clns;\
         exit(-1);\
     }\
 }
