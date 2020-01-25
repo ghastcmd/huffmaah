@@ -12,6 +12,15 @@
     __FILE__, line, __func__, msg, strerror(errno));\
 }
 
+#define logerr_fopen(file, pathname) {\
+    if (!file)\
+    {\
+        logerr_n("fopen");\
+        printf(YC" '%s'\n"ZC, pathname);\
+        exit(-1);\
+    }\
+}
+
 #define BOC "\x1b[0;30m"
 #define RC "\x1b[0;31m"
 #define GC "\x1b[0;32m"

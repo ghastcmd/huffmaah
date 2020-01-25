@@ -12,7 +12,7 @@ int main()
     #ifdef _U16M
     _setmode(_fileno(stdout), _O_U16TEXT);
     #endif
-
+    
     rw_dir_lstree("test.txt", "test.huff");
     // rw_dir_lstree("Brackets.msi", "test.huff");
     // rw_dir_lstree("movie.mkv", "test.huff");

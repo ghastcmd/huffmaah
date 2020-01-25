@@ -7,7 +7,6 @@ void print_huffman(const int64_t val)
 {
     char chr[3] = { 0 };
     chr[0] = val;
-    // printf("-%"PRId64"-", val);
     switch(val)
     {
     case FLAG:
@@ -22,13 +21,41 @@ void print_huffman(const int64_t val)
     printf("%s", chr);
 }
 
+void print_huffman_dir(const int64_t val, void* param)
+{
+    char chr[3] = { 0 };
+    chr[0] = val;
+    switch(val)
+    {
+    case FLAG:
+        chr[0] = '*';
+        break;
+    case '*':
+        strcpy(chr, "\\*");
+        break;
+    case '\\':
+        strcpy(chr, "\\\\");
+    }
+    fprintf((FILE*)param, "%s", chr);
+}
+
+void print_lstree(lstree* head)
+{
+    lstree_bst_foreach_preorder(head, print_huffman);
+    puts("");
+}
+
+void print_lstree_dir(lstree* head, FILE* fileout)
+{
+    lstree_bst_foreach_wparam_preorder(head, print_huffman_dir, (void*)fileout);
+}
+
 void len_tree(const int64_t val, void* param)
 {
-    int* len = (int*)param;
-    *len += 1;
+    *(int*)param += 1;
     if (val == '*' || val == '\\')
     {
-        *len += 1;
+        *(int*)param += 1;
     }
 }
 
@@ -105,7 +132,6 @@ void upbar(const int len, const int size, const char* color)
     }
     for (int j = size - 1; j > len; j--, i++)
     {
-        // buffer[i] = '-';
         buffer[i] = 221;
     }
     buffer[i] = 0;
@@ -115,12 +141,7 @@ void upbar(const int len, const int size, const char* color)
 lstree* read_dir_lstree(const char* pathname, int64_t* num)
 {
     FILE* file = fopen(pathname, "r");
-    if (!file)
-    {
-        logerr_n("fopen");
-        printf(YC" '%s'\n"ZC, pathname);
-        exit(-1);
-    }
+    logerr_fopen(file, pathname);
 
     lstree* head = nullptr;
     uint8_t al;
@@ -179,27 +200,20 @@ void parse_tree_toarr(lstree* head, int64_t* num, int64_t* vals)
     }
 }
 
-void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const char* outfile)
+void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const char* outfile, lstree* head)
 {
-    FILE* filein = fopen(infile,  "r+");
-    if (!filein)
-    {
-        logerr_n("fopen");
-        printf(YC" '%s'\n"ZC, infile);
-        exit(-1);
-    }
-    FILE* file   = fopen(outfile, "w+");
-    if (!file)
-    {
-        logerr_n("fopen");
-        printf(YC" '%s'\n"ZC, outfile);
-        exit(-1);
-    }
+    FILE* filein = fopen(infile, "r+");
+    logerr_fopen(filein, infile); // error checking for fopen
+    
+    FILE* file = fopen(outfile, "w+");
+    logerr_fopen(file, outfile); // error checking for fopen
 
     puts(BBC"Writing len of file");
     fprintf(file, "%c%c", (char)lens[256] & 0xf0, (char)lens[256] & 0x0f);
 
-    puts("Writing data to file"ZC);
+    puts("Writing tree to file"ZC);
+    print_lstree_dir(head, file);
+
     uint8_t i = 0;
     uint64_t idx = 0;
     int8_t chr = 0, byte = 0;
@@ -270,27 +284,23 @@ void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const ch
 
 void rw_dir_lstree(const char* infile, const char* outfile)
 {
-    int64_t* num = (int64_t*)calloc(257, sizeof(int64_t));
+    int64_t* num = (int64_t*)calloc(256, sizeof(int64_t));
     puts("Opening file");
     lstree* head = read_dir_lstree(infile, num);
 
-    int64_t* bins = (int64_t*)calloc(257, sizeof(int64_t));
+    int64_t* bins = (int64_t*)calloc(256, sizeof(int64_t));
     parse_tree_toarr(head, num, bins);
 
     puts(BBC"Transfered values from tree to arrays"ZC);
+
+    write_dir_lstree(bins, num, infile, outfile, head);
+    puts(GC"Successfully writen values to file"ZC);
+
     lstree_clean_tree(head);
     puts(GC"Successfully free'd memory from tree"ZC);
 
-    write_dir_lstree(bins, num, infile, outfile);
-    puts(GC"Successfully writen values to file"ZC);
-    puts(BMC"Freeing memory..."ZC);
+    puts(BMC"Freeing memory local heap arrays..."ZC);
     free(num);
     free(bins);
     puts(BGC"* Compression was successfully executed *"ZC);
-}
-
-void print_lstree(lstree* head)
-{
-    lstree_bst_foreach_preorder(head, print_huffman);
-    puts("");
 }
