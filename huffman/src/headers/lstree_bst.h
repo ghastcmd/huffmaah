@@ -20,9 +20,10 @@ void lstree_bst_treeify(lstree** head);
 /**
  * @brief: construct a tree following preorder print of vals
  * @param tree_fmt: string containing preorder of previous tree
+ * @param len: lenght of tree_fmt string
  * @ret: pointer to root of made lstree
  */
-lstree* lstree_bst_make_tree(const char* tree_fmt);
+lstree* lstree_bst_make_tree(char* tree_fmt, const uint64_t len);
 
 /**
  * @brief: executes a function in every lstree node in tree

@@ -1,4 +1,4 @@
-#include "huffenco.h"
+#include "huffman.h"
 #include "lstree_list.h"
 #include "lstree_bst.h"
 #include "structs.h"
@@ -252,14 +252,14 @@ void parse_tree_toarr(lstree* head, int64_t* num, int64_t* vals)
 void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const char* outfile, lstree* head)
 {
     FILE* filein = fopen(infile, "rb");
-    logerr_fopen(filein, infile, free(bins); free(lens)); // error checking for fopen
+    logerr_fopen(filein, infile, free(bins); free(lens); lstree_clean_tree(head)); // error checking
     
     FILE* file = fopen(outfile, "wb+");
-    logerr_fopen(file, outfile, free(bins); free(lens)); // error checking for fopen
+    logerr_fopen(file, outfile, free(bins); free(lens); fclose(filein); lstree_clean_tree(head)); // error checking
 
-    puts(BBC"Writing len of tree to file");
-    fprintf(file, "%c%c", (char)lens[256] & 0xf0, (char)lens[256] & 0x0f);
-
+    printf(BBC"Writing len of tree to file: "BMC"%"PRIu16" bytes\n"BBC, (uint16_t)lens[256]);
+    fprintf(file, "%c%c", (char)((lens[256] & 0xff00) >> 8), (char)lens[256] & 0xff);
+    
     puts("Writing tree to file"ZC);
     print_lstree_dir(head, file);
 
@@ -321,18 +321,16 @@ void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const ch
         trash = 8 - idx % 8;
         fprintf(file, "%c", byte << trash);
     }
+    puts("Closing files...");
 
     rewind(file);
-    char tmp = fgetc(file);
+    uint8_t tmp = fgetc(file); // getting first byte of file
     rewind(file);
     // Writes the trash into the first byte of file
     fprintf(file, "%c", tmp | (trash << 5));
 
-    puts("Closing files...");
-
     fseek(file, 0, SEEK_END);
     printf(BMC"Output file size: "BGC"%"PRId64""BMC" bytes\n"ZC, (int64_t)ftell(file));
-
     fclose(filein);
     fclose(file);
 }

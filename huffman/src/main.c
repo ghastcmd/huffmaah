@@ -1,6 +1,5 @@
 #include <pch.h>
-#include "structs.h"
-#include "huffenco.h"
+#include "huffman.h"
 
 #include "CUnit/CUnit.h"
 
@@ -14,8 +13,10 @@ int main()
     #endif
     
     // rw_dir_lstree("test.txt", "test.huff");
-    rw_dir_lstree("Brackets.msi", "test.huff");
-    // rw_dir_lstree("movie.mkv", "test.huff");
+    // rw_dir_lstree("Brackets.msi", "test.huff");
+
+    rw_dir_huff("test.huff", "output.msi");
+    // rw_dir_huff("test.huff", "output.txt");
 
     return 0;
 }

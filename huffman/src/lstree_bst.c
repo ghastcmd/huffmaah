@@ -180,25 +180,16 @@ void lstree_bst_treeify(lstree** head)
     }
 }
 
-lstree* lstree_bst_make_tree(const char* tree_fmt)
+lstree* lstree_bst_make_tree(char* tree_fmt, const uint64_t len)
 {
-    const int len = strlen(tree_fmt);
     lstree* root = nullptr;
-    for (int i = 0; i < len; i++)
+    for (uint64_t i = 0; i < len; i++)
     {
         lstree* input = (lstree*)calloc(1, sizeof(lstree));
-        if (!input)
-        {
-            logerr("calloc");
-            exit(-1);
-        }
+        logerr_calloc(input,);
 
-        int64_t* chr = (int64_t*)malloc(sizeof(int64_t));
-        if (!chr)
-        {
-            logerr("malloc");
-            exit(-1);
-        }
+        int64_t* chr = (int64_t*)calloc(1, sizeof(int64_t));
+        logerr_calloc(chr, free(input));
         *chr = tree_fmt[i];
         if (*chr == '*')
         {

@@ -5,7 +5,9 @@
     "stdlib.h": "c",
     "errno.h": "c",
     "fcntl.h": "c",
-    "huffenco.h": "c"
+    "huffenco.h": "c",
+    "huffman.h": "c",
+    "cunit.h": "c"
   },
   "editor.tabSize": 4
 }
