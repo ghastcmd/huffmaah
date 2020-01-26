@@ -34,6 +34,12 @@ $(bin)/$(pch).o: $(src)/$(pch).c $(inc)/$(pch).h
 run: build
 	@$(bin)/$(target)
 
+png: build
+	@$(bin)/$(target) png
+
+msi: build
+	@$(bin)/$(target) msi
+
 dirs:
 	@echo "target: $(target)"
 	@echo "source         dir: $(src)"

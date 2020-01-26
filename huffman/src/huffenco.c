@@ -13,10 +13,10 @@ void _print_huffman(const int64_t val)
     case FLAG:
         chr[0] = '*';
         break;
-    case '*':
+    case (int64_t)'*':
         strcpy(chr, "\\*");
         break;
-    case '\\':
+    case (int64_t)'\\':
         strcpy(chr, "\\\\");
     }
     printf("%s", chr);
@@ -41,9 +41,12 @@ void _print_huffman_dir(const int64_t val, void* param)
         break;
     case '*':
         strcpy(chr, "\\*");
+        puts("32jkldmsalkDSADSAJKDSAJDSADLASKDASLDSKADAS\n");
         break;
     case '\\':
         strcpy(chr, "\\\\");
+        puts("#@1321321321321312321321321321312321\n");
+        break;
     }
     fprintf((FILE*)param, "%s", chr);
 }
@@ -51,7 +54,15 @@ void _print_huffman_dir(const int64_t val, void* param)
 // Prints tree in preorder to a given file
 void print_lstree_dir(lstree* head, FILE* fileout)
 {
-    lstree_bst_foreach_wparam_preorder(head, _print_huffman_dir, (void*)fileout);
+    if (!head) return;
+    const int64_t al = *(int64_t*)(head->val);
+    if ((char)al == '*' || (char)al == '\\')
+    {
+        fprintf(fileout, "\\");
+    }
+    fprintf(fileout, "%c", al == FLAG ? '*' : (char)al);
+    print_lstree_dir(head->left , fileout);
+    print_lstree_dir(head->right, fileout);
 }
 
 // Used by bytelen_lstree
@@ -87,8 +98,15 @@ void translate_elem(lstree* head, const char al, bool* found, int* len, int64_t*
 {
     bool side = false;
     
-    const char* value = (char*)head->val;
-    if (*value == al)
+    if (al == 0)
+    {
+        if (*(int64_t*)head->val == (int64_t)al)
+        {
+            *found = true;
+            return;
+        }
+    }
+    else if ((char)*(int64_t*)head->val == al)
     {
         *found = true;
         return;
@@ -252,10 +270,10 @@ void parse_tree_toarr(lstree* head, int64_t* num, int64_t* vals)
 void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const char* outfile, lstree* head)
 {
     FILE* filein = fopen(infile, "rb");
-    logerr_fopen(filein, infile, free(bins); free(lens); lstree_clean_tree(head)); // error checking
+    logerr_fopen(filein, infile, return;); // error checking
     
     FILE* file = fopen(outfile, "wb+");
-    logerr_fopen(file, outfile, free(bins); free(lens); fclose(filein); lstree_clean_tree(head)); // error checking
+    logerr_fopen(file, outfile, fclose(filein); return;); // error checking
 
     printf(BBC"Writing len of tree to file: "BMC"%"PRIu16" bytes\n"BBC, (uint16_t)lens[256]);
     fprintf(file, "%c%c", (char)((lens[256] & 0xff00) >> 8), (char)lens[256] & 0xff);
@@ -265,7 +283,7 @@ void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const ch
 
     uint8_t i = 0;
     uint64_t idx = 0;
-    int8_t chr = 0, byte = 0;
+    uint8_t chr = 0, byte = 0;
     bool already = false;
 
     fseek(filein, 0, SEEK_END);
@@ -281,11 +299,11 @@ void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const ch
     while(fsize--)
     {
         chr = fgetc(filein);
-        int64_t len = lens[(uint8_t)chr];
+        int64_t len = lens[chr];
         i = 0;
         while(len--)
         {
-            byte = byte << 1 | (int8_t)((bins[(uint8_t)chr] >> i) & 1);
+            byte = byte << 1 | (int8_t)((bins[chr] >> i) & 1);
             i++;
             idx++;
             if (idx % 8 == 0)
@@ -345,12 +363,12 @@ void rw_dir_lstree(const char* infile, const char* outfile)
     int64_t* num = (int64_t*)calloc(256, sizeof(int64_t));
     logerr_calloc(num,);
 
-    printf("Compressing %s to output %s", infile, outfile);
+    printf(BBC"Compressing "GC"%s"BBC" to output "GC"%s\n"ZC, infile, outfile);
     puts("Opening file");
     lstree* head = read_dir_lstree(infile, num);
 
     int64_t* bins = (int64_t*)calloc(256, sizeof(int64_t));
-    logerr_calloc(bins, free(num));
+    logerr_calloc(bins, free(num); lstree_clean_tree(head));
 
     parse_tree_toarr(head, num, bins);
     puts(BBC"Transfered values from tree to arrays"ZC);
