@@ -41,6 +41,9 @@ png:
 msi:
 	$(eval args = msi)
 
+nocolor:
+	$(eval flags += -DOUTNCL)
+
 dirs:
 	@echo "target: $(target)"
 	@echo "source         dir: $(src)"

@@ -326,5 +326,5 @@ void rw_dir_lstree(const char* infile, const char* outfile)
     free(num);
     free(bins);
 
-    puts(BGC"* Compression was successfully executed *"ZC);
+    puts(BGC"* Compression was successfully executed *\n"ZC);
 }

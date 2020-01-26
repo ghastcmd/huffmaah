@@ -11,8 +11,6 @@ int main(int argc, char** argv)
     #ifdef _U16M
     _setmode(_fileno(stdout), _O_U16TEXT);
     #endif
-    
-    puts("Initialized...");
 
     if (argc >= 2)
     {

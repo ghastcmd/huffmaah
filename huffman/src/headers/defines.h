@@ -31,6 +31,8 @@
     }\
 }
 
+#ifndef OUTNCL
+
 #define BOC "\x1b[0;30m"
 #define RC "\x1b[0;31m"
 #define GC "\x1b[0;32m"
@@ -50,5 +52,29 @@
 #define BWC "\x1b[1;37m"
 
 #define ZC "\x1b[0m"
+
+#else
+
+#define BOC ""
+#define RC  ""
+#define GC  ""
+#define YC  ""
+#define BC  ""
+#define MC  ""
+#define CC  ""
+#define WC  ""
+
+#define BBOC ""
+#define BRC ""
+#define BGC ""
+#define BYC ""
+#define BBC ""
+#define BMC ""
+#define BCC ""
+#define BWC ""
+
+#define ZC  ""
+
+#endif
 
 #define FLAG 0x8fff000000000000
