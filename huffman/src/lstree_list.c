@@ -202,22 +202,15 @@ void lstree_print_char(lstree* head)
     puts("");
 }
 
-void lstree_add_val(lstree** headr, int val, int64_t freq)
+void lstree_add_val(lstree** headr, int64_t val, int64_t freq)
 {
     // printf("\x1b[92mInserting:\x1b[94m %i %i\x1b[0m\n", val, freq);
     lstree* stin = (lstree*)calloc(1, sizeof(lstree));
-    if (!stin)
-    {
-        logerr("calloc");
-        exit(-1);
-    }
+    logerr_calloc(stin,);
 
-    int* value = (int*)malloc(sizeof(int));
-    if (!value)
-    {
-        logerr("malloc");
-        exit(-1);
-    }
+    int64_t* value = (int64_t*)calloc(1, sizeof(int64_t));
+    logerr_calloc(value,free(stin));
+
     *value = val;
     *stin = (lstree)
     {

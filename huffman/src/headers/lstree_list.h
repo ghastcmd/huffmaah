@@ -32,7 +32,7 @@ void lstree_print_char(lstree* head);
  * @param val: desired .val of new lstree node
  * @param freq: desired .freq of new lstree node
  */
-void lstree_add_val(lstree** heade, int val, int64_t freq);
+void lstree_add_val(lstree** heade, int64_t val, int64_t freq);
 
 /**
  * @brief: insert sorted a lsree node into a lstree list

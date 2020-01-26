@@ -5,6 +5,7 @@ inc = $(src)/headers
 ext = vendor
 pch = pch
 cc = gcc
+args = 
 
 libs = $(wildcard $(ext)/*/lib/*.a)
 
@@ -32,13 +33,13 @@ $(bin)/$(pch).o: $(src)/$(pch).c $(inc)/$(pch).h
 	$(cc) -c $< -o $@ -I $(inc) -I $(ext)
 
 run: build
-	@$(bin)/$(target)
+	@$(bin)/$(target) $(args)
 
-png: build
-	@$(bin)/$(target) png
+png:
+	$(eval args = png)
 
-msi: build
-	@$(bin)/$(target) msi
+msi:
+	$(eval args = msi)
 
 dirs:
 	@echo "target: $(target)"
@@ -66,7 +67,7 @@ init:
 
 valgrind: $(object)
 	$(cc) $(object) $(flags) $(flags_dgb) -o $(bin)/$(target)
-	valgrind --leak-check=full --show-leak-kinds=all $(bin)/$(target)
+	valgrind --leak-check=full --show-leak-kinds=all $(bin)/$(target) $(args)
 
 help:
 	@echo "Commands:"

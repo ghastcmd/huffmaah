@@ -40,6 +40,7 @@ void* merge(const void* sts, const void* ste)
     lstree* ster = (lstree*)ste;
     
     tuple* retdata = (tuple*)calloc(1, sizeof(tuple));
+    logerr_calloc(retdata,);
 
     retdata->st0 = FLAG;
     retdata->st1 = stsr->freq + ster->freq;
@@ -55,18 +56,11 @@ void* create(const void* std)
 {
     tuple* stt    = (tuple* )std;
     lstree* stnew = (lstree*)calloc(1, sizeof(lstree));
-    if (!stnew)
-    {
-        logerr("calloc");
-        exit(-1);
-    }
+    logerr_calloc(stnew,);
 
-    int64_t* value = (int64_t*)malloc(sizeof(int64_t));
-    if (!value)
-    {
-        logerr("malloc");
-        exit(-1);
-    }
+    int64_t* value = (int64_t*)calloc(1, sizeof(int64_t));
+    logerr_calloc(value, free(stnew));
+    
     *value = (int64_t)stt->st0;
 
     *stnew = (lstree)
@@ -84,8 +78,7 @@ void* create(const void* std)
  */
 void* leftp(const void* stn)
 {
-    lstree* stnp = (lstree*)stn;
-    return stnp->left;
+    return ((lstree*)stn)->left;
 }
 
 /**
@@ -94,8 +87,7 @@ void* leftp(const void* stn)
  */
 void* rightp(const void* stn)
 {
-    lstree* stnp = (lstree*)stn;
-    return stnp->right;
+    return ((lstree*)stn)->right;
 }
 
 /**
@@ -104,8 +96,7 @@ void* rightp(const void* stn)
  */
 void** leftptr(const void* stn)
 {
-    lstree* stnptr = (lstree*)stn;
-    return (void**)&(stnptr->left);
+    return (void**)&(((lstree*)stn)->left);
 }
 
 /**
@@ -114,8 +105,7 @@ void** leftptr(const void* stn)
  */
 void** rightptr(const void* stn)
 {
-    lstree* stnptr = (lstree*)stn;
-    return (void**)&(stnptr->right);
+    return (void**)&(((lstree*)stn)->right);
 }
 
 /**
@@ -124,9 +114,7 @@ void** rightptr(const void* stn)
  */
 int64_t get_val_bst(const void* stn)
 {
-    lstree* stnp = (lstree*)stn;
-    int64_t* value = (int64_t*)stnp->val;
-    return *value;
+    return *(int64_t*)((lstree*)stn)->val;
 }
 
 /**
@@ -135,8 +123,7 @@ int64_t get_val_bst(const void* stn)
  */
 void freest_tree(const void* stn)
 {
-    lstree* stnr = (lstree*)stn;
-    free(stnr->val);
+    free(((lstree*)stn)->val);
 }
 
 /**

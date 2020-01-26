@@ -24,11 +24,14 @@ void make_decomp(lstree* head, const int8_t trash, FILE* infile, FILE* outfile)
         }
 
         byte = fgetc(infile);
-        printf(" %02X ", byte);
         for (int8_t i = 7; i >= ini; i--)
         {
             right = (byte >> i) & 1u;
-            printf("%i ", right);
+            if ((right && !current->right) || (!right && !current->left))
+            {
+                puts("none");
+                return;
+            }
             if (right)
             {
                 current = current->right;
@@ -46,17 +49,6 @@ void make_decomp(lstree* head, const int8_t trash, FILE* infile, FILE* outfile)
             }
         }
     }
-}
-
-void print_tree(lstree* head)
-{
-    if (!head) return;
-    const int64_t al = *(int64_t*)(head->val);
-    if ((char)al == '*' || (char)al == '\\') putchar('\\');
-    printf("%c<", al == FLAG ? '*' : (char)al);
-    print_tree(head->left);
-    print_tree(head->right);
-    putchar('>');
 }
 
 void rw_dir_huff(const char* filein, const char* fileout)
