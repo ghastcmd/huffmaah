@@ -44,6 +44,9 @@ msi:
 nocolor:
 	$(eval flags += -DOUTNCL)
 
+unitst:
+	$(eval flags += -DUNITST)
+
 dirs:
 	@echo "target: $(target)"
 	@echo "source         dir: $(src)"

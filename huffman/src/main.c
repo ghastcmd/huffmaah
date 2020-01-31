@@ -1,16 +1,20 @@
-#include <pch.h>
+#include "pch.h"
 #include "huffman.h"
 
-#include "CUnit/CUnit.h"
+#include "unitst.h"
 
 int main(int argc, char** argv)
 {
-    #ifdef _WIN32
+#ifdef _WIN32
     system("color 0");
-    #endif
-    #ifdef _U16M
+#endif
+#ifdef _U16M
     _setmode(_fileno(stdout), _O_U16TEXT);
-    #endif
+#endif
+
+#ifdef UNITST
+    return unitst();
+#endif
 
     if (argc >= 2)
     {
