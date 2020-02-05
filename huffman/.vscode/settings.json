@@ -7,7 +7,8 @@
     "fcntl.h": "c",
     "huffenco.h": "c",
     "huffman.h": "c",
-    "cunit.h": "c"
+    "cunit.h": "c",
+    "bstree.h": "c"
   },
   "editor.tabSize": 4
 }

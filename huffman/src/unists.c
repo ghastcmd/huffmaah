@@ -54,3 +54,13 @@ int unitst()
     CU_basic_run_tests(); // run all the tests set before into current suite
     CLEAN_CUNIT_EXIT(); // clean CUnit registry and return errors
 }
+
+/**
+ * 
+ * 
+ * lstree_____________________
+ * lstree_bst_union
+ * lstree_bst_treeify
+ * lstree_bst_make_tree
+ * lstree_bst_foreach_preorder
+ */

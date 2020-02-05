@@ -220,3 +220,8 @@ void lstree_clean_tree(lstree* head)
 {
     TreeFree((void*)head, &ine_bst, freest_tree);
 }
+
+inters_bst* get_inters_bst()
+{
+    return &ine_bst;
+}

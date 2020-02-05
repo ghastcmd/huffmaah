@@ -20,10 +20,6 @@ object = $(patsubst %,$(bin)/%, $(notdir $(source:.c=.o)))
 $(bin)/$(target): $(object) $(libs)
 	$(cc) $^ -o $@ $(flags) $(ldlibs)
 
-$(ext)/%/lib/*.a: $(ext)/%/obj/*.o
-	echo "---------------------"
-	cd $(ext)/% && make
-
 $(bin)/%.o: $(src)/%.c
 	$(cc) -c $< -o $@ $(flags) $(ldlibs) -I $(inc) -I $(ext)
 

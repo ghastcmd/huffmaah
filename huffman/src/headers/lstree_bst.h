@@ -1,5 +1,6 @@
 #pragma once
-#include <pch.h>
+#include "pch.h"
+#include "bsTree.h"
 
 /**
  * @brief: gets the first 2 nodes of list and makes them childs
@@ -60,3 +61,8 @@ void lstree_bst_print_preorder(lstree* head);
  * @param head: lstree tree root pointer
  */
 void lstree_clean_tree(lstree* head);
+
+/**
+ * @brief: returns the interface struct to lstree
+ */
+inters_bst* get_inters_bst();
