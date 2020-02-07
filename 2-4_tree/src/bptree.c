@@ -202,7 +202,7 @@ void bpnode_childs_current(bpnode* node)
     printf("%p\n", node->childs[size]);
 }
 
-void free_bptree(bpnode* root)
+void free_bpnode(bpnode* root)
 {
     for (int i = 0; i < BPSIZE; i++)
     {
@@ -210,9 +210,32 @@ void free_bptree(bpnode* root)
         {
             break;
         }
-        free_bptree(root->childs[i]);
+        free_bpnode(root->childs[i]);
         // free(root);
     }
     free(root);
     root = nullptr;
+}
+
+void _bpnode_search(bpnode* node, int val, bool* ret)
+{
+    if (*ret) return;
+    for (int i = 0; i < BPSIZE; i++)
+    {
+        if (node->childs[i] != nullptr)
+        {
+            _bpnode_search(node->childs[i], val, ret);
+        }
+        if (node->keys[i] == val)
+        {
+            *ret |= true;
+        }
+    }
+}
+
+bool bpnode_search(bpnode* node, int val)
+{
+    bool ret = false;
+    _bpnode_search(node, val, &ret);
+    return ret;
 }

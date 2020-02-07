@@ -35,12 +35,15 @@ int main()
     deb_print(tree->childs[2], "third");
     deb_print(tree->childs[3], "fourth");
 
+    int val = 2;
+    printf("%i %i\n", val, bpnode_search(tree, val));
+
     bpnode_childs_current(tree);
 
     puts("");
     bpnode_print_tree(tree);
     printf("\b\n"); 
 
-    free_bptree(tree);
+    free_bpnode(tree);
     puts("working...");
 }

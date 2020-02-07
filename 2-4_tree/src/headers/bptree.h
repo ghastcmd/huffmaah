@@ -23,4 +23,6 @@ void bpnode_print_tree(bpnode* node);
 
 void bpnode_childs_current(bpnode* node);
 
-void free_bptree(bpnode* root);
+void free_bpnode(bpnode* root);
+
+bool bpnode_search(bpnode* node, int val);
