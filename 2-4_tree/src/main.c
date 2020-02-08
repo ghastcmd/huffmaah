@@ -35,12 +35,30 @@ int main()
     deb_print(tree->childs[2], "third");
     deb_print(tree->childs[3], "fourth");
 
+    puts("finding test");
     int val = 2;
     printf("%i %i\n", val, bpnode_search(tree, val));
 
+    puts("found node");
+    bpnode* found = bpnode_find_node(tree, val);
+    bpnode_print_current(found);
+
+    puts("\n\nroot ptrs");
     bpnode_childs_current(tree);
 
-    puts("");
+    bpnode_childs_current(tree);
+
+    puts("inorder print");
+    bpnode_print_tree(tree);
+    printf("\b\n"); 
+
+    puts(">> removed val");
+    bpnode_remove(tree, 10);
+    bpnode_remove(tree, 50);
+    bpnode_remove(tree, 30);
+    bpnode_remove(tree, 21);
+
+    puts("inorder print");
     bpnode_print_tree(tree);
     printf("\b\n"); 
 

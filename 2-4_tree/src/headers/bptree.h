@@ -11,8 +11,6 @@ typedef struct bpnode
     struct bpnode* childs[BPSIZE+1];
 } bpnode;
 
-bpnode* get_val(bpnode* node);
-
 bpnode* bpnode_create();
 
 void bpnode_add_val(bpnode** _Ret_opt_count_, int val);
@@ -26,3 +24,7 @@ void bpnode_childs_current(bpnode* node);
 void free_bpnode(bpnode* root);
 
 bool bpnode_search(bpnode* node, int val);
+
+bpnode* bpnode_find_node(bpnode* node, int val);
+
+void bpnode_remove(bpnode* root, int val);
