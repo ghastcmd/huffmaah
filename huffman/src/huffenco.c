@@ -127,7 +127,6 @@ lstree* read_dir_lstree(const char* pathname, int64_t* num)
     FILE* file = fopen(pathname, "rb");
     logerr_fopen(file, pathname, free(num));
 
-    lstree* head = nullptr;
     uint8_t al = 0;
 
     fseek(file, 0, SEEK_END);
@@ -155,6 +154,7 @@ lstree* read_dir_lstree(const char* pathname, int64_t* num)
     fclose(file);
 
     puts(BMC"Creating tree...");
+    lstree* head = nullptr;
     for (int i = 0; i < 256; i++)
     {
         if (num[i] > 0)
@@ -194,15 +194,23 @@ void parse_tree_toarr(lstree* head, int64_t* num, int64_t* vals)
     }
 }
 
-uint8_t parse_lstree_file(uint64_t fsize, FILE* filein, FILE* fileout, int64_t* bins, int64_t* lens)
+/**
+ * @param fsize: the file input size
+ * @param filein: input file pointer handler
+ * @param fileout: outpuf file pointer handler
+ * @param bins: the translated binary format from tree
+ * @param lens: array containig the lenghs of binaries in bins array
+ * @ret: the remaining byte to be writen and last bit position to be writen
+ */
+uint16_t parse_lstree_file(uint64_t fsize, FILE* filein, FILE* fileout, int64_t* bins, int64_t* lens)
 {
-    uint64_t idx = 0;
+    uint32_t idx = 0; // counts the bits writen
     uint8_t chr = 0, byte = 0, i = 0;
-    bool already = false;
+    bool whole = false;
 
-    int64_t step = (int64_t)fsize / (int64_t)50;
-    step = step == 0 ? 1 : step;
-    int barlen = 0, size = fsize / step;
+    int64_t step = (int64_t)fsize / (int64_t)50; /* ************ */
+    step = step == 0 ? 1 : step;                 /* Progress bar */
+    int barlen = 0, size = fsize / step;         /* ************ */
     while(fsize--)
     {
         chr = fgetc(filein);
@@ -216,29 +224,30 @@ uint8_t parse_lstree_file(uint64_t fsize, FILE* filein, FILE* fileout, int64_t* 
             if (idx % 8 == 0)
             {
                 fprintf(fileout, "%c", byte);
-                already = true;
+                whole = true;
                 byte = 0;
+                idx = 0;
             }
         }
 
         if (fsize % step == 0)
-        {
+        { // updates the progress bar lenght
             upbar(barlen++, size, WC);
         }
 
-        if (idx % 8 == 0 && !already)
+        if (idx % 8 == 0 && !whole)
         {
             fprintf(fileout, "%c", byte);
             byte = 0;
         }
         else
         {
-            already = false;
+            whole = false;
         }
     }
-    upbar(barlen-1, size, GC);
+    upbar(barlen-1, size, GC); // finalizes progree bar
 
-    return (byte << 4) | (idx % 8);
+    return (((uint16_t) byte) << 8) | (idx % 8);
 }
 
 /**
@@ -270,10 +279,10 @@ void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const ch
     printf(BMC"File size: "BGC"%"PRIu64""BMC" bytes\n"ZC, fsize);
 
     puts(YC"/Writing data to output file\\"BC);
-    uint8_t res = parse_lstree_file(fsize, filein, file, bins, lens);
+    uint16_t res = parse_lstree_file(fsize, filein, file, bins, lens);
 
-    uint8_t byte  = res >> 4;
-    uint8_t modix = res & 0x0f;
+    uint8_t byte  = res >> 8;
+    uint8_t modix = res & 0xff;
 
     int8_t trash = 0;
     // Writes the resting bits to file
@@ -303,15 +312,18 @@ void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const ch
  */
 void rw_dir_lstree(const char* infile, const char* outfile)
 {
+    // array to hold the frequencies of bytes in file
     int64_t* num = (int64_t*)calloc(257, sizeof(int64_t));
-    logerr_calloc(num,);
+    logerr_calloc(num,); // error handling
 
     printf(BBC"Compressing "GC"%s"BBC" to output "GC"%s\n"ZC, infile, outfile);
+
     puts("Opening file");
     lstree* head = read_dir_lstree(infile, num);
 
+    // array to hold the binary format after translation from tree
     int64_t* bins = (int64_t*)calloc(257, sizeof(int64_t));
-    logerr_calloc(bins, free(num); lstree_clean_tree(head));
+    logerr_calloc(bins, free(num); lstree_clean_tree(&head));
 
     parse_tree_toarr(head, num, bins);
     puts(BBC"Transfered values from tree to arrays"ZC);
@@ -319,7 +331,7 @@ void rw_dir_lstree(const char* infile, const char* outfile)
     write_dir_lstree(bins, num, infile, outfile, head);
     puts(GC"Successfully writen values to file"ZC);
 
-    lstree_clean_tree(head);
+    lstree_clean_tree(&head); // freeing tree memory
     puts(GC"Successfully free'd memory from tree"ZC);
 
     puts(BMC"Freeing memory local heap arrays..."ZC);

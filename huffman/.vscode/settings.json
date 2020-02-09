@@ -8,7 +8,11 @@
     "huffenco.h": "c",
     "huffman.h": "c",
     "cunit.h": "c",
-    "bstree.h": "c"
+    "bstree.h": "c",
+    "lstree_bst.h": "c",
+    "lstree_list.h": "c",
+    "structs.h": "c",
+    "linkedlist.h": "c"
   },
   "editor.tabSize": 4
 }

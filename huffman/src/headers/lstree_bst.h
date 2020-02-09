@@ -60,9 +60,9 @@ void lstree_bst_print_preorder(lstree* head);
  * @brief: frees the memory of tree of lstree nodes
  * @param head: lstree tree root pointer
  */
-void lstree_clean_tree(lstree* head);
+void lstree_clean_tree(lstree** head);
 
 /**
  * @brief: returns the interface struct to lstree
  */
-inters_bst* get_inters_bst();
+inters_bst* lstree_bst_get_inters();

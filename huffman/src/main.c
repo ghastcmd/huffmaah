@@ -1,7 +1,10 @@
 #include "pch.h"
 #include "huffman.h"
 
+#ifdef UNITST
 #include "unitst.h"
+#define RUNTST return unitst();
+#endif
 
 int main(int argc, char** argv)
 {
@@ -11,9 +14,8 @@ int main(int argc, char** argv)
 #ifdef _U16M
     _setmode(_fileno(stdout), _O_U16TEXT);
 #endif
-
 #ifdef UNITST
-    return unitst();
+    RUNTST;
 #endif
 
     if (argc >= 2)

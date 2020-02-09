@@ -23,10 +23,10 @@ $(bin)/$(target): $(object) $(libs)
 $(bin)/%.o: $(src)/%.c
 	$(cc) -c $< -o $@ $(flags) $(ldlibs) -I $(inc) -I $(ext)
 
-build: $(bin)/$(target)
-
 $(bin)/$(pch).o: $(src)/$(pch).c $(inc)/$(pch).h
 	$(cc) -c $< -o $@ -I $(inc) -I $(ext)
+
+build: $(bin)/$(target)
 
 run: build
 	@$(bin)/$(target) $(args)
@@ -41,7 +41,7 @@ nocolor:
 	$(eval flags += -DOUTNCL)
 
 unitst:
-	$(eval flags += -DUNITST)
+	$(eval flags  += -DUNITST)
 
 dirs:
 	@echo "target: $(target)"

@@ -12,9 +12,11 @@ void make_decomp(lstree* head, const int8_t trash, FILE* infile, FILE* outfile)
         fseek(infile, pos, SEEK_SET);
     }
 
+    // *    stuff needed for progreess bar    * //
     int64_t step = (int64_t)fsize / (int64_t)50;
     step = step == 0 ? 1 : step;
     int barlen = 0, size = fsize / step;
+    // *************************************** //
 
     lstree* current = head;
     uint8_t right, byte, ini = 0;
@@ -26,7 +28,7 @@ void make_decomp(lstree* head, const int8_t trash, FILE* infile, FILE* outfile)
         }
 
         if (fsize % step == 0)
-        {
+        { // updating progress bar lenght
             upbar(barlen++, size, WC);
         }
 
@@ -94,7 +96,7 @@ void rw_dir_huff(const char* filein, const char* fileout)
     make_decomp(head, trash, infile, outfile);
     
     puts(BMC"\nFreeing heap..."ZC);
-    lstree_clean_tree(head);
+    lstree_clean_tree(&head);
     puts("Closing files");
     fclose(outfile);
     fclose(infile);

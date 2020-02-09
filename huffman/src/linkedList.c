@@ -79,6 +79,7 @@ void ListFree(void* stn, void*(*nextp)(const void*), void(*freest)(const void*))
 
 void* ListPop(void** stn, void*(*nextp)(const void*), void**(*nextptr)(const void*))
 {
+    if (!*stn) return nullptr;
     void* stou = *stn;
     *stn = nextp(*stn);
     void** ptr = nextptr(stou);

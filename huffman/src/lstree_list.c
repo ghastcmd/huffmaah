@@ -175,7 +175,6 @@ void freest(const void* stn)
 inters ine =
 {
     .compar   = compare,
-    // .equcmp   = equcmp,
     .nextp    = nextp,
     .nextptr  = nextptr,
 };
@@ -231,7 +230,13 @@ void* lstree_pop(lstree** headr)
     return ListPop((void**)headr, nextp, nextptr);
 }
 
-void lstree_clean_list(lstree* head)
+void lstree_clean_list(lstree** head)
 {
-    ListFree(head, nextp, freest);
+    ListFree(*head, nextp, freest);
+    *head = nullptr;
+}
+
+interface* lstree_lst_get_inters()
+{
+    return &ine;
 }
