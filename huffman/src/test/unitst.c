@@ -365,7 +365,7 @@ void inters_bst_test()
     CU_ASSERT_PTR_NULL(tree_ptr);
 }
 
-int unitst()
+int main()
 {
     if (CU_initialize_registry() != CUE_SUCCESS)
     {
@@ -377,9 +377,9 @@ int unitst()
         CLEAN_CUNIT_EXIT();
     }
 
-    ADD_TEST(lsuite, "1", list_value_test);
-    ADD_TEST(lsuite, "2", list_morph_test);
-    ADD_TEST(lsuite, "3", inters_list_test);
+    ADD_TEST(lsuite, "linked list values", list_value_test);
+    ADD_TEST(lsuite, "linked list morphing functions", list_morph_test);
+    ADD_TEST(lsuite, "linked list interfaces", inters_list_test);
 
     CU_pSuite bsuite = CU_add_suite(GC"Tree_structure"ZC, foo_suite, foo_suite);
     if (bsuite == nullptr)
@@ -387,9 +387,10 @@ int unitst()
         CLEAN_CUNIT_EXIT();
     }
 
-    ADD_TEST(bsuite, "4", make_tree_test);
-    ADD_TEST(bsuite, "5", inters_bst_test);
+    ADD_TEST(bsuite, "binary tree values", make_tree_test);
+    ADD_TEST(bsuite, "binary tree interfaces", inters_bst_test);
 
     CU_basic_run_tests(); // run all the tests set before into current suite
+
     CLEAN_CUNIT_EXIT(); // clean CUnit registry and return errors
 }

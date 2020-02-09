@@ -18,7 +18,7 @@ typedef struct bpnode
 
 bpnode* bpnode_create();
 
-void bpnode_add_val(bpnode** _Ret_opt_count_, int val);
+void bpnode_add_val(bpnode** root, int val);
 
 void bpnode_print_current(bpnode* node);
 

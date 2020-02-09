@@ -163,6 +163,10 @@ lstree* read_dir_lstree(const char* pathname, int64_t* num)
         }
     }
 
+    if (*(int64_t*)head->val != FLAG)
+    {
+        lstree_add_val(&head, *(int64_t*)head->val, head->freq);
+    }
     lstree_bst_treeify(&head);    
     puts(GC"Created successfully"ZC);
 

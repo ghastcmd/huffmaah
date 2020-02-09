@@ -7,7 +7,7 @@ void ListInsertSorted(void** stn, void* stin, inters* ine)
         *stn = stin;
         return;
     }
-    if (ine->compar(stin, *stn) < 0)
+    if (ine->compar(stin, *stn) <= 0)
     {
         // * ************************ *
         // *    put stin before stn   *
@@ -26,7 +26,7 @@ void ListInsertSorted(void** stn, void* stin, inters* ine)
     {
         current = tmp;
 
-        if (ine->compar(stin, current) < 0)
+        if (ine->compar(stin, current) <= 0)
         {
             // * ************************** *
             // *  stick stin where it fits  *
