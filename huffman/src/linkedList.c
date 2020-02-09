@@ -7,7 +7,7 @@ void ListInsertSorted(void** stn, void* stin, inters* ine)
         *stn = stin;
         return;
     }
-    if (ine->compar(stin, *stn) < 0)
+    if (ine->compar(stin, *stn) <= 0)
     {
         // * ************************ *
         // *    put stin before stn   *
@@ -26,7 +26,7 @@ void ListInsertSorted(void** stn, void* stin, inters* ine)
     {
         current = tmp;
 
-        if (ine->compar(stin, current) < 0)
+        if (ine->compar(stin, current) <= 0)
         {
             // * ************************** *
             // *  stick stin where it fits  *
@@ -79,6 +79,7 @@ void ListFree(void* stn, void*(*nextp)(const void*), void(*freest)(const void*))
 
 void* ListPop(void** stn, void*(*nextp)(const void*), void**(*nextptr)(const void*))
 {
+    if (!*stn) return nullptr;
     void* stou = *stn;
     *stn = nextp(*stn);
     void** ptr = nextptr(stou);

@@ -124,6 +124,7 @@ int64_t get_val_bst(const void* stn)
 void freest_tree(const void* stn)
 {
     free(((lstree*)stn)->val);
+    ((lstree*)stn)->val = nullptr;
 }
 
 /**
@@ -216,12 +217,13 @@ void lstree_bst_print_preorder(lstree* head)
     puts("");
 }
 
-void lstree_clean_tree(lstree* head)
+void lstree_clean_tree(lstree** head)
 {
-    TreeFree((void*)head, &ine_bst, freest_tree);
+    TreeFree((void*)*head, &ine_bst, freest_tree);
+    *head = nullptr;
 }
 
-inters_bst* get_inters_bst()
+inters_bst* lstree_bst_get_inters()
 {
     return &ine_bst;
 }

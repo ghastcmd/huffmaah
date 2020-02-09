@@ -34,6 +34,21 @@ void print_tree(lstree* head)
     putchar('>');
 }
 
+void parse_lstree_string(lstree* head, char* arr, int* i)
+{
+    if (!head) return;
+    const int64_t al = *(int64_t*)head->val;
+    if ((char)al == '*' || (char)al == '\\')
+    {
+        arr[*i] = '\\';
+        *i += 1;
+    }
+    arr[*i] = al == FLAG ? '*' : (char)al;
+    *i += 1;
+    parse_lstree_string(head->left, arr, i);
+    parse_lstree_string(head->right, arr, i);
+}
+
 /**
  * @brief: creates a progress bar given color, size and leght
  * @param len: the current lenght of bar

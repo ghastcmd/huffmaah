@@ -10,38 +10,43 @@ args =
 libs = $(wildcard $(ext)/*/lib/*.a)
 
 flags = -Wall -Werror -L $(ext)/CUnit/lib
-ldlibs = -lcunit
+ldlibs =
 
 flags_dbg = -g
 
 source = $(wildcard $(src)/*.c)
 object = $(patsubst %,$(bin)/%, $(notdir $(source:.c=.o)))
 
-$(bin)/$(target): $(object) $(libs)
+$(bin)/$(target): $(object)
 	$(cc) $^ -o $@ $(flags) $(ldlibs)
 
 $(bin)/%.o: $(src)/%.c
 	$(cc) -c $< -o $@ $(flags) $(ldlibs) -I $(inc) -I $(ext)
 
-build: $(bin)/$(target)
-
 $(bin)/$(pch).o: $(src)/$(pch).c $(inc)/$(pch).h
 	$(cc) -c $< -o $@ -I $(inc) -I $(ext)
+
+build: $(bin)/$(target)
 
 run: build
 	@$(bin)/$(target) $(args)
 
-png:
-	$(eval args = png)
-
-msi:
-	$(eval args = msi)
-
 nocolor:
 	$(eval flags += -DOUTNCL)
 
-unitst:
-	$(eval flags += -DUNITST)
+$(bin)/unitst.o: $(src)/test/unitst.c
+	$(cc) -c $< -o $@ $(flags) $(ldlibs) -I $(inc) -I $(ext)
+
+$(bin)/unitst: $(object:main.o=unitst.o)
+	$(cc) $^ -o $@ $(flags) $(ldlibs) -I $(inc) -I $(ext)
+
+cunit_lib:
+	$(eval ldlibs +=-lcunit)
+
+unitst: cunit_lib $(bin)/unitst
+	
+run_test: unitst
+	@$(bin)/unitst
 
 dirs:
 	@echo "target: $(target)"
@@ -75,4 +80,4 @@ help:
 	@echo "Commands:"
 	@echo "build    run         dirs"
 	@echo "clean    valgrind    init"
-	@echo "init_rm"
+	@echo "cleans"

@@ -1,5 +1,5 @@
 #pragma once
-#include <pch.h>
+#include "pch.h"
 #include "structs.h"
 
 /**
@@ -20,7 +20,6 @@
 typedef struct inters
 {
     int64_t(*compar)(const void*, const void*);
-    int64_t(*equcmp)(const void*, const void*);
     void*(*nextp   )(const void*);
     void**(*nextptr)(const void*);
 } inters, interface;

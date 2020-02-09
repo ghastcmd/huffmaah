@@ -17,7 +17,7 @@ bpnode* bpnode_create()
 
 bool is_leaf(bpnode* node)
 {
-    return node->childs[0] == nullptr ? 1 : 0;
+    return node->childs[0] == nullptr;
 }
 
 bool bpnode_full(bpnode* node)
@@ -63,6 +63,7 @@ void arr_shift_right_childs(bpnode** arr, int idx, int size)
 
 void arr_shift_left_childs(bpnode** arr, int idx, int size)
 {
+    arr[BPSIZE] = nullptr;
     for (int i = idx; i <= size; i++)
     {
         arr[i] = arr[i+1];
@@ -79,6 +80,30 @@ int arr_search_val(int* arr, int val, int size)
         }
     }
     return -1;
+}
+
+int arr_search_interval(int* arr, int val, int size)
+{
+    if (val <= arr[0])
+    {
+        return 0;
+    }
+    else if (val >= arr[size-1])
+    {
+        return size;
+    }
+    else
+    {
+        int i;
+        for (i = 0; i < size; i++)
+        {
+            if (val >= arr[i] && val <= arr[i+1])
+            {
+                break;
+            }
+        }
+        return i;
+    }
 }
 
 // insert value inside bptree leaf
@@ -120,7 +145,7 @@ void bpnode_split(bpnode** root)
 
     int split = ceil(((float)BPSIZE-1) / 2);
     
-    bpnode* right = bpnode_create(0);
+    bpnode* right = bpnode_create();
 
     int i = 0;
     node->used -= BPSIZE - split; // updating the used variable
@@ -129,10 +154,18 @@ void bpnode_split(bpnode** root)
     { // getting keys and childs ptrs to right node
         right->keys[i] = node->keys[idx];
         right->childs[i] = node->childs[idx];
+        if (right->childs[i])
+        {
+            right->childs[i]->parent = right;
+        }
         node->keys[idx] = EMPTY;
         node->childs[idx] = nullptr;
     }
     right->childs[i] = node->childs[BPSIZE];
+    if (right->childs[i])
+    {
+        right->childs[i]->parent = right;
+    }
     node->childs[BPSIZE] = nullptr;
 
     if (no_parent(node))
@@ -154,6 +187,7 @@ void bpnode_split(bpnode** root)
         int idx = bpnode_insert_here(node->parent, split_key) + 1;
         arr_shift_right_childs(node->parent->childs, idx, BPSIZE);
         node->parent->childs[idx] = right;
+        right->parent = node->parent;
         node->keys[split] = EMPTY;
     }
 }
@@ -170,11 +204,11 @@ void bpnode_add_val(bpnode** root, int val)
         int size = node->used;
         if (val <= node->keys[0])
         {
-            bpnode_add_val(&(*root)->childs[0], val);
+            bpnode_add_val(&node->childs[0], val);
         }
         else if (val >= node->keys[size-1])
         {
-            bpnode_add_val(&(*root)->childs[size], val);
+            bpnode_add_val(&node->childs[size], val);
         }
         else
         {
@@ -182,7 +216,7 @@ void bpnode_add_val(bpnode** root, int val)
             {
                 if ((val >= node->keys[i] && val <= node->keys[i+1]))
                 {
-                    bpnode_add_val(&(*root)->childs[i+1], val);
+                    bpnode_add_val(&node->childs[i+1], val);
                     break;
                 }
             }
@@ -217,7 +251,22 @@ void bpnode_print_tree(bpnode* node)
         int key = node->keys[i];
         if (key != EMPTY)
         {
-            printf("%2i ", key);
+            printf("%02i ", key);
+        }
+    }
+}
+
+void bpnode_get_qnt(bpnode* node, int* qnt)
+{
+    for (int i = 0; i < BPSIZE; i++)
+    {
+        if (node->childs[i] != nullptr)
+        {
+            bpnode_get_qnt(node->childs[i], qnt);
+        }
+        if (node->keys[i] != EMPTY)
+        {
+            *qnt += 1;
         }
     }
 }
@@ -282,6 +331,7 @@ bpnode* bpnode_find_node(bpnode* node, int val)
 
 void bpnode_remove_here(bpnode* node, int val)
 {
+    node->used--;
     for (int i = 0; i < BPSIZE; i++)
     {
         if (node->keys[i] == val)
@@ -313,23 +363,16 @@ bpnode* bpnode_swap_succ(bpnode* node, int idx)
     return current;
 }
 
-bpnode* bpnode_get_neighbour(bpnode* node, int interval)
+bpnode* bpnode_get_neighbour(bpnode* parent, int itv)
 {
-    if (interval == 0)
-    {
-        return node->parent->childs[1];
-    }
-    else
-    {
-        return node->parent->childs[interval - 1];
-    }
+    return itv == 0 ? parent->childs[1] : parent->childs[itv - 1];
 }
 
 int bpnode_pop_right_key(bpnode* node)
 {
     node->used--;
     int key = 0;
-    for (int i = BPSIZE; i > 0; i--)
+    for (int i = BPSIZE-1; i >= 0; i--)
     {
         if ((key = node->keys[i]) != EMPTY)
         {
@@ -355,6 +398,7 @@ void bpnode_transfer(bpnode* node, bpnode* neighbour, bool left)
     {
         nbhd_key = bpnode_pop_right_key(neighbour);
         prnt_key = bpnode_pop_right_key(node->parent);
+        printf("transfer: %i %i\n", nbhd_key, prnt_key);
     }
     else
     {
@@ -362,21 +406,22 @@ void bpnode_transfer(bpnode* node, bpnode* neighbour, bool left)
         prnt_key = bpnode_pop_left_key(node->parent);
     }
 
+    node->keys[0] = EMPTY;
+    node->used--;
     bpnode_insert_here(node->parent, nbhd_key);
     bpnode_insert_here(node, prnt_key);
 }
 
-void bpnode_fusion(bpnode* node, bpnode* neighbour, bool left, int itv)
+void bpnode_fusion(bpnode* node, bpnode* neighbour, int itv)
 {
     int key = 0;
-    if (left)
+    if (itv != 0)
     {
         key = bpnode_pop_right_key(node->parent);
         bpnode_insert_here(neighbour, key);
         neighbour->childs[neighbour->used] = node->childs[0];
 
         arr_shift_left_childs(node->parent->childs, itv, BPSIZE);
-        free(node);
     }
     else
     {
@@ -386,40 +431,80 @@ void bpnode_fusion(bpnode* node, bpnode* neighbour, bool left, int itv)
         bpnode_insert_here(neighbour, key);
 
         arr_shift_left_childs(node->parent->childs, 0, BPSIZE);
-        free(node);
     }
+
+    free(node);
 }
 
-void bpnode_remove(bpnode* root, int val)
+void bpnode_remove(bpnode** root, int val)
 {
-    bpnode* node = bpnode_find_node(root, val);
+    bpnode* node = bpnode_find_node(*root, val);
     if (!node) return;
 
-    int idx = arr_search_val(node->keys, val, BPSIZE);
+    if (node->used == 1 && no_parent(node) && is_leaf(node))
+    {
+        bpnode_remove_here(node, val);
+        return;
+    }
+
+    printf("\nREMOVING %i !!!\n", val);
+
+    bpnode* tmp = nullptr;
+    int idx = 0;
     if (!is_leaf(node))
     {
+        idx = arr_search_val(node->keys, val, node->used);
+        tmp = node;
         node = bpnode_swap_succ(node, idx);
     }
 
+    int itv = 0;
+    if (node->parent == tmp)
+    {
+        itv = idx + 1;
+        puts("into");
+    }
+    else
+    {
+        tmp = node->parent;
+        itv = arr_search_interval(tmp->keys, val, tmp->used);
+    }
+    
     if (node->used > 1)
     {
         bpnode_remove_here(node, val);
         return;
     }
 
-    int itv = bpnode_get_interval(node, val, idx);
-    bpnode* nbhd = nullptr;
-    {
-        bpnode* tmp = node->parent;
-        nbhd = itv == 0 ? tmp->childs[1] : tmp->childs[itv - 1];
-    }
-
+    bpnode* nbhd = bpnode_get_neighbour(node->parent, itv);
     if (nbhd->used > 1)
     { // if neighbour isn't a 2-node
-        bpnode_transfer(node, nbhd, itv == idx);
+        bpnode_transfer(node, nbhd, itv != 0);
+        return;
     }
     else
     {
-        bpnode_fusion(node, nbhd, itv == idx, itv);
+        bpnode_fusion(node, nbhd, itv);
+    }
+
+
+    bpnode* current = nbhd->parent;
+    while (current->used == 0)
+    {
+        bpnode* tmp_parent = current->parent;
+        if (tmp_parent == nullptr)
+        {
+            free(current->childs[0]->parent);
+            current->childs[0]->parent = nullptr;
+            *root = current->childs[0];
+            break;
+        }
+
+        int key = nbhd->keys[0];
+        itv = arr_search_interval(tmp_parent->keys, key, tmp_parent->used);
+        nbhd = bpnode_get_neighbour(tmp_parent, itv);
+
+        bpnode_fusion(current, nbhd, itv);
+        current = nbhd->parent;
     }
 }

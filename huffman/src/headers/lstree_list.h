@@ -1,6 +1,7 @@
 #pragma once
-#include <pch.h>
+#include "pch.h"
 #include "structs.h"
+#include "linkedList.h"
 
 /**
  * * ********************************************************** *
@@ -52,4 +53,9 @@ void* lstree_pop(lstree** headr);
  * @brief: frees memory of lstree list
  * @param head: pointer to start of lstree list
  */
-void lstree_clean_list(lstree* head);
+void lstree_clean_list(lstree** head);
+
+/**
+ * @ret: returns the struct interface used with lstree list
+ */
+interface* lstree_lst_get_inters();
