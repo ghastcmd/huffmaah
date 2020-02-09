@@ -8,3 +8,4 @@ vendor/*/lib/
 *.png
 *.txt
 *.bak
+*.huff
