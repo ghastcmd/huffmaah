@@ -1,30 +1,30 @@
 #pragma once
 #include "pch.h"
 
-struct node {
+struct node_heap {
     int item;
     int priority;
 };
 
 struct heap {
-    struct node *data;
+    struct node_heap *data;
     int size;
 };
 
 //if heap is null
-int is_empty_heap (struct heap *heap)
+int is_empty_heap (struct heap *heap);
 
 //create struct heap with n numbers of nodes
 struct heap *create_heap(int n);
 
 //add node on heap
-void enqueue (struct heap *heap, int item, int priority, int n);
+void enqueue_heap (struct heap *heap, int item, int priority, int n);
 
 //remove node on heap
-struct node *dequeue(struct heap *heap);
+struct node_heap *dequeue_heap(struct heap *heap);
 
 // swap two nodes
-void swap (struct node *node1, struct node *node2);
+void swap (struct node_heap *node1, struct node_heap *node2);
 
 //get the father node
 int get_parent_index (struct heap *heap, int i);

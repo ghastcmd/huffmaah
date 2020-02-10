@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "headers/priority_queue.h"
 
 int is_empty_node (struct node *node)
 {
