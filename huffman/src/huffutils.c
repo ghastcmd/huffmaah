@@ -82,5 +82,5 @@ void upbar(const int len, const int size, const char* color)
         buffer[i] = 221;
     }
     buffer[i] = 0;
-    printf(buffer);
+    printf("%s", buffer);
 }

@@ -1,4 +1,4 @@
-#include "pch.c"
+#include "pch.h"
 
 int is_empty_node (struct node *node)
 {
@@ -13,7 +13,7 @@ struct priority_queue *create_priority_queue ()
 
 	if (pq == NULL)
 	{
-		printf("Memory overflow\n");
+		printf("Core Dump (Segmentation fault)\n");
 		return NULL;
 	}
 
@@ -28,7 +28,7 @@ void enqueue (struct priority_queue *pq, int i, int p)
 	new_node->priority = p;
 	new_node->next = NULL;
 
-	if (is_empty_node(pq->head) || p > pq->head->priority)
+	if (is_empty_node(pq->head) || p < pq->head->priority)
 	{
 		new_node->next = pq->head;
 		pq->head = new_node;
@@ -38,7 +38,7 @@ void enqueue (struct priority_queue *pq, int i, int p)
 		struct node *current = pq->head;
 		struct node *previous = current;
 
-		while (current != NULL && p <= current->priority)
+		while (current != NULL && p >= current->priority)
 		{
 			previous = current;
 			current = current->next;

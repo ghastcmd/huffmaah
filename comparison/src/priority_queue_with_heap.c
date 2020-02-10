@@ -1,0 +1,124 @@
+#include "pch.h"
+
+int is_empty_heap (struct heap *heap)
+{
+    return (heap == NULL);
+}
+
+struct heap *create_heap (int n)
+{
+    struct heap *heap = (struct heap *) malloc(sizeof(struct heap));
+    
+    if (is_empty_heap(heap))
+    {
+        printf("Core Dump (Segmentation fault)\n");
+        return NULL;
+    }
+
+    heap->size = 0;
+    heap->data = (struct node *) malloc((n + 1) * sizeof(struct node));
+
+    if (heap->data == NULL)
+    {
+        printf("Core Dump (Segmentation fault)\n");
+        heap->data = NULL;
+    }
+
+    return heap;
+}
+
+int get_parent_index (struct heap *heap, int i)
+{
+    return i/2;
+}
+
+int get_left_index (struct heap *heap)
+{
+    return i*2;
+}
+
+int get_right_index (struct heap *heap, int i)
+{
+    return (i*2) + 1;
+}
+
+void swap (struct node *node1, struct node *node2)
+{
+    struct node aux = *node1;
+    *node1          = *node2;
+    *node2          = aux;
+}
+
+void enqueue (struct heap, int item, int priority, int n)
+{
+    if (heap->size >= n)
+    {
+        printf("Heap Overflow\n");
+    }
+    else
+    {
+        heap->data[++heap->size]->item = item;
+        heap->data[heap->size]->item = item;
+        
+        int key_index = heap->size;
+        int parent_index = get_left_index (heap, heap->size);
+
+        while ((parent_index >= 1) && 
+                (heap->data[key_index]->priority >= heap->data[parent_index]->priority))
+        {
+            swap(&heap->data[key_index], &heap->data[parent_index]);
+
+            key_index = parent_index;
+
+            parent_index = get_parent_index(heap, key);
+        }
+    }
+    
+}
+
+struct node *dequeue (struct heap *heap)
+{
+    if (is_empty_heap(heap))
+    {
+        printf("Heap Underflow\n");
+        return NULL;
+    }
+    
+    struct node *dequeued = heap->data[1];
+
+    heap->data[1] = heap->data[heap->size];
+    heap->size -= 1;
+
+    max_heapify (heap, 1);
+
+    return dequeued;
+}
+
+void max_heapify (struct heap *heap, int i)
+{
+    int largest;
+    int left_index = get_left_index(heap, i);
+    int right_index = get_right_index(heap, i);
+
+    if ((left_index <= heap->size) && 
+        (heap->data[left_index]->priority > heap->data[i]->priority))
+    {
+        largest = left_index;
+    }
+    else
+    {
+        largest = i;
+    }
+    
+    if ((right_index <= heap->size) && 
+        (heap->data[right_index]->priority > heap->data[largest]))
+    {
+        largest = right_index;
+    }
+
+    if (heap->data[i]->priority != heap->data[largest]->priority )
+    {
+        swap(&heap->data[i], &heap->data[largest]);
+        max_heapify(heap, largest);
+    }
+}

@@ -22,3 +22,5 @@ void enqueue (struct priority_queue *pq, int i, int p);
 
 //remove the primary node of the head
 struct node *dequeue (struct priority_queue *pq);
+
+int search (struct priority_queue, int item, int priority);
