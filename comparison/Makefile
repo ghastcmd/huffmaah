@@ -21,9 +21,11 @@ run: build
 
 init:
 	mkdir build
+	mkdir data
 
 clean:
 	rm -rf build
+	rm -rf data
 
 plot: build
 	python plot.py

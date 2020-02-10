@@ -18,9 +18,7 @@ int is_empty_node (struct node *node);
 struct priority_queue *create_priority_queue ();
 
 //add one node on struct with priority
-void enqueue (struct priority_queue *pq, int i, int p);
+void enqueue (struct priority_queue *pq, int item, int priority);
 
-//remove the primary node of the head
-struct node *dequeue (struct priority_queue *pq);
-
-int search (struct priority_queue, int item, int priority);
+// count number of verifications
+int search_without_heap (struct priority_queue *pq, int item);

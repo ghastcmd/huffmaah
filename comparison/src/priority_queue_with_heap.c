@@ -17,7 +17,7 @@ struct heap *create_heap (int n)
     }
 
     heap->size = 0;
-    heap->data = (struct node_heap *) malloc((n + 1) * sizeof(struct node_heap));
+    heap->data = (struct node_heap *) malloc(n * sizeof(struct node_heap));
 
     if (heap->data == NULL)
     {
@@ -28,17 +28,17 @@ struct heap *create_heap (int n)
     return heap;
 }
 
-int get_parent_index (struct heap *heap, int i)
+int get_parent_index (int i)
 {
     return i/2;
 }
 
-int get_left_index (struct heap *heap, int i)
+int get_left_index (int i)
 {
     return i*2;
 }
 
-int get_right_index (struct heap *heap, int i)
+int get_right_index (int i)
 {
     return (i*2) + 1;
 }
@@ -46,8 +46,8 @@ int get_right_index (struct heap *heap, int i)
 void swap (struct node_heap *node1, struct node_heap *node2)
 {
     struct node_heap aux = *node1;
-    *node1          = *node2;
-    *node2          = aux;
+    *node1               = *node2;
+    *node2               = aux;
 }
 
 void enqueue_heap (struct heap *heap, int item, int priority, int n)
@@ -60,66 +60,33 @@ void enqueue_heap (struct heap *heap, int item, int priority, int n)
     {
         heap->data[++heap->size].item = item;
         heap->data[heap->size].priority = priority;
+        //printf("p: %d - i: %d\n", heap->data[heap->size].priority, heap->data[heap->size].item);
         
         int key_index = heap->size;
-        int parent_index = get_left_index (heap, heap->size);
+        int parent_index = get_parent_index (heap->size);
 
         while ((parent_index >= 1) && 
-                (heap->data[key_index].priority >= heap->data[parent_index].priority))
+                (heap->data[key_index].priority > heap->data[parent_index].priority))
         {
             swap(&heap->data[key_index], &heap->data[parent_index]);
 
             key_index = parent_index;
 
-            parent_index = get_parent_index(heap, key_index);
+            parent_index = get_parent_index(key_index);
         }
     }
     
 }
 
-struct node_heap *dequeue_heap (struct heap *heap)
+/*
+int search_with_heap (struct heap *heap, int item, int priority, int index)
 {
-    if (is_empty_heap(heap))
-    {
-        printf("Heap Underflow\n");
-        return NULL;
-    }
-    
-    struct node_heap *dequeued = &heap->data[1];
+    int index_left = get_left_index(index);
+    int index_right = get_right_index(index);
 
-    heap->data[1] = heap->data[heap->size];
-    heap->size -= 1;
+    if ((priority - heap->data[index_left].priority == 0) || (priority - heap->data[index_left].priority == 0))
+        return 1;
 
-    max_heapify (heap, 1);
-
-    return dequeued;
+     
 }
-
-void max_heapify (struct heap *heap, int i)
-{
-    int largest;
-    int left_index = get_left_index(heap, i);
-    int right_index = get_right_index(heap, i);
-
-    if ((left_index <= heap->size) && 
-        (heap->data[left_index].priority > heap->data[i].priority))
-    {
-        largest = left_index;
-    }
-    else
-    {
-        largest = i;
-    }
-    
-    if ((right_index <= heap->size) && 
-        (heap->data[right_index].priority > heap->data[largest].priority))
-    {
-        largest = right_index;
-    }
-
-    if (heap->data[i].priority != heap->data[largest].priority )
-    {
-        swap(&heap->data[i], &heap->data[largest]);
-        max_heapify(heap, largest);
-    }
-}
+*/

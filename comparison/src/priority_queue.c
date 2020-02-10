@@ -21,15 +21,15 @@ struct priority_queue *create_priority_queue ()
 	return pq;
 }
 
-void enqueue (struct priority_queue *pq, int i, int p)
+void enqueue (struct priority_queue *pq, int item, int priority)
 {
 	struct node *new_node = (struct node *) malloc(sizeof(struct node));
 
-	new_node->item = i;
-	new_node->priority = p;
+	new_node->item = item;
+	new_node->priority = priority;
 	new_node->next = NULL;
 
-	if (is_empty_node(pq->head) || p < pq->head->priority)
+	if (is_empty_node(pq->head) || priority > pq->head->priority)
 	{
 		new_node->next = pq->head;
 		pq->head = new_node;
@@ -39,7 +39,7 @@ void enqueue (struct priority_queue *pq, int i, int p)
 		struct node *current = pq->head;
 		struct node *previous = current;
 
-		while (current != NULL && p >= current->priority)
+		while (current != NULL && priority <= current->priority)
 		{
 			previous = current;
 			current = current->next;
@@ -50,20 +50,17 @@ void enqueue (struct priority_queue *pq, int i, int p)
 	}
 }
 
-struct node *dequeue (struct priority_queue *pq)
+int search_without_heap (struct priority_queue *pq, int item)
 {
-	if (is_empty_node(pq->head))
-	{
-		printf("Priority queue underflow\n");
-		return NULL;
-	}
-	else
-	{
-		struct node *dequeued = pq->head;
+	int n = 1;
 
-		pq->head = pq->head->next;
-		dequeued->next = NULL;
+	struct node *current = pq->head;
 
-		return dequeued;
+	while ((current != NULL) && ( current->item != item ) )
+	{
+		n += 1;	
+		current = current->next;
 	}
+	
+	return n;
 }
