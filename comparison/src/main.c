@@ -3,7 +3,7 @@
 
 int main()
 {
-    int i, n = 10;
+    int i, n = 1000;
     time_t t;
     
     struct heap *pq_with_heap = create_heap(n + 1);
@@ -20,7 +20,7 @@ int main()
     /* attributed n numbers random numbers from 0 to 10000 */
     for( i = 1 ; i < n +1; i++ ) 
     {
-        int priority = (int) ((rand() % 9) + 1);
+        int priority = (int) ((rand() % 100) + 1);
         int item = i;
 
         priority_array[i - 1] = priority;
@@ -32,7 +32,11 @@ int main()
     fprintf (file_pq_with_heap, "item,n\n");
     // write lines of text into the file stream
     for(i = 1; i <= n; i++)
-        fprintf (file_pq_with_heap, "%d,%d\n", i, search_with_heap(pq_with_heap, i, priority_array[i], 1));
+    {
+        int cnt = 0;
+        search_with_heap(pq_with_heap, i, priority_array[i], 1, &cnt);
+        fprintf (file_pq_with_heap, "%d,%d\n", i, cnt);
+    }
 
     fprintf (file_pq_without_heap, "item,n\n");
     // write lines of text into the file stream

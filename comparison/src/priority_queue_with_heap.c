@@ -78,35 +78,43 @@ void enqueue_heap (struct heap *heap, int item, int priority, int n)
     
 }
 
-int search_with_heap (struct heap *heap, int item, int priority, int index)
+void search_with_heap (struct heap *heap, int item, int priority, int index, int* count)
 {
     int index_left = get_left_index(index);
     int index_right = get_right_index(index);
 
     if ( priority == heap->data[index].priority)
     {
+        *count += 1;
         if (item == heap->data[index].item)
         {
-            return 1;
+            // *count += 1;
+            return;
         }
-        else if (priority == heap->data[index_left].priority)
+        else if ((*count += 1) == 0 || priority == heap->data[index_left].priority)
         {
-            return 1 + search_with_heap(heap, item, priority, index_left);
+            // *count += 1;
+            search_with_heap(heap, item, priority, index_left, count);
         }
-        else if (priority == heap->data[index_right].priority)
+        else if ((*count += 1) == 0 || priority == heap->data[index_right].priority)
         {
-            return 1 + search_with_heap(heap, item, priority, index_right);
+            // *count += 1;
+            search_with_heap(heap, item, priority, index_right, count);
         }
         
     }
 
     if (index > heap->size)
-        return 0;
+        return;
 
+    *count += 1;
     if (priority > heap->data[index_left].priority)
     {
-        return 1 + search_with_heap(heap, item, priority, index_right);
+        search_with_heap(heap, item, priority, index_right, count);
     }
-
-    return 1 + search_with_heap(heap, item, priority, index_left);
+    else
+    {
+        *count += 1;
+        search_with_heap(heap, item, priority, index_left, count);
+    }
 }

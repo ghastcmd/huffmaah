@@ -29,5 +29,5 @@ with open(f'{data_folder + with_heap}', 'r') as queue_file:
 
 plt.ylabel('Number of comparisons')
 plt.xlabel('Draft numbers')
-plt.title('Priority queue with heap vs. without heap')
+plt.title('Priority queue with heap(orange) vs. without heap(blue)')
 plt.show()
