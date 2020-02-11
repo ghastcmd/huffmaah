@@ -18,11 +18,15 @@ int main()
     /* Intializes random number generator */
     srand((unsigned) time(&t));
 
+    int priority_array[n];
+
     /* attributed n numbers random numbers from 0 to 10000 */
     for( i = 1 ; i < n +1; i++ ) 
     {
         int priority = (int) ((rand() % 9) + 1);
         int item = i;
+
+        priority_array[i - 1] = priority;
 
         enqueue_heap(pq_with_heap, item, priority, n + 1);
         enqueue(pq_without_heap, item, priority);
@@ -61,14 +65,30 @@ int main()
         current = current->next;
     }
     */
-   
-    // write lines of text into the file stream
-    for(i = 1; i <= n;i++)
-    {
-        int item = i;
+    printf("array prioridade: ");
+    for (i = 0; i < n; i++)
+        printf(" %d", priority_array[i]);
+    printf("\n");
 
-        fprintf (file_pq_without_heap, "item sorteado: %d, number of verification: %d\n", item, search_without_heap(pq_without_heap, item));
+    printf("prio,item\n");
+    for (i = 1; i <= n; i++)
+        printf("%d,%d\n", pq_with_heap->data[i].priority, pq_with_heap->data[i].item);
+    printf("\n");
+
+    //fprintf (file_pq_without_heap, "item,n\n");
+    // write lines of text into the file stream
+    for(i = 1; i <= n + 1; i++)
+    {
+        int find = 0;
+        ;
+        //fprintf (file_pq_without_heap, "%d,%d\n", item, search_without_heap(pq_without_heap, item));
+        printf("item: %d, n: %d\n", i, search_with_heap(pq_with_heap, i, priority_array[i - 1], 1, &find));
     }
+
+    fprintf (file_pq_without_heap, "item,n\n");
+    // write lines of text into the file stream
+    for(i = 1; i <= n; i++)
+        fprintf (file_pq_without_heap, "%d,%d\n", i, search_without_heap(pq_without_heap, i));
 
     //close the file  
     fclose (file_pq_without_heap);

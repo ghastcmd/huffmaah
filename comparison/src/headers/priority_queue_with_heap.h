@@ -33,4 +33,4 @@ int get_left_index (int i);
 int get_right_index (int i);
 
 // count number of verifications
-int search_with_heap (struct heap *heap, int item, int priority, int index);
+int search_with_heap (struct heap *heap, int item, int priority, int index, int *find);
