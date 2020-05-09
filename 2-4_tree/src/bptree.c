@@ -299,6 +299,7 @@ void free_bpnode(bpnode* root)
 void _bpnode_search(bpnode* node, int val, bool* ret, bpnode** ret_node)
 {
     if (*ret) return;
+    
     for (int i = 0; i < BPSIZE; i++)
     {
         if (node->childs[i] != nullptr)
@@ -462,7 +463,6 @@ void bpnode_remove(bpnode** root, int val)
     if (node->parent == tmp)
     {
         itv = idx + 1;
-        puts("into");
     }
     else
     {

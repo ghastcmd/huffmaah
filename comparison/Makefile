@@ -28,4 +28,4 @@ clean:
 	rm -rf data/
 
 plot: build
-	python plot.py
+	python3 plot.py
