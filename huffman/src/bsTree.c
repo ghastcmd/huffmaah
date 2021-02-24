@@ -2,9 +2,9 @@
 #include "structs.h"
 
 /**
- * @sts: standard token start
- * @ste: standard token end
- * @ine: interface equivalent
+ * @param sts standard token start
+ * @param ste standard token end
+ * @param ine interface equivalent
  */
 
 void* TreeUnion(void* sts, void* ste, const inters_bst* ine)

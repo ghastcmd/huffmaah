@@ -48,8 +48,8 @@ void _len_tree(const int64_t val, void* param)
 }
 
 /**
- * @param head: root pointer to lstree tree
- * @ret: the lenght of given tree in preorder
+ * @param head root pointer to lstree tree
+ * @return the lenght of given tree in preorder
  */
 int bytelen_lstree(lstree* head)
 {
@@ -59,12 +59,12 @@ int bytelen_lstree(lstree* head)
 }
 
 /**
- * @brief: given an element, it translates to path inside tree
- * @param head: root pointer to lstree tree
- * @param al: the element to find
- * @param found: required to work (set it to false)
- * @param len: required to work (set it to 0)
- * @param ret: required to work (set it to 0)
+ * Given an element, it translates to path inside tree
+ * @param head root pointer to lstree tree
+ * @param al the element to find
+ * @param found required to work (set it to false)
+ * @param len required to work (set it to 0)
+ * @param ret required to work (set it to 0)
  */
 void translate_elem(lstree* head, const char al, bool* found, int* len, int64_t* ret)
 {
@@ -116,11 +116,10 @@ int64_t _ret_revbin_len(int64_t bin, uint8_t len)
 }
 
 /**
- * @brief: gets the frequency of individual vaues inside file
- * and creates tree with it
- * @param pathname: the name of input file
- * @param num: array of 256 slots to store the frequency of bytes
- * @ret: pointer to root of the parsed tree
+ * Gets the frequency of individual vaues inside file and creates tree with it
+ * @param pathname the name of input file
+ * @param num array of 256 slots to store the frequency of bytes
+ * @return pointer to root of the parsed tree
  */
 lstree* read_dir_lstree(const char* pathname, int64_t* num)
 {
@@ -174,11 +173,10 @@ lstree* read_dir_lstree(const char* pathname, int64_t* num)
 }
 
 /**
- * @brief: translates the lstree tree into paths of values and lenghts of
- * bits of values
- * @param head: lstree root tree pointer
- * @param num: array to hold lenghts of bytes in bits
- * @param vals: array to hold paths in bits of bytes
+ * Translates the lstree tree into paths of values and lenghts of bits of values
+ * @param head lstree root tree pointer
+ * @param num array to hold lenghts of bytes in bits
+ * @param vals array to hold paths in bits of bytes
  */
 void parse_tree_toarr(lstree* head, int64_t* num, int64_t* vals)
 {
@@ -199,12 +197,12 @@ void parse_tree_toarr(lstree* head, int64_t* num, int64_t* vals)
 }
 
 /**
- * @param fsize: the file input size
- * @param filein: input file pointer handler
- * @param fileout: outpuf file pointer handler
- * @param bins: the translated binary format from tree
- * @param lens: array containig the lenghs of binaries in bins array
- * @ret: the remaining byte to be writen and last bit position to be writen
+ * @param fsize the file input size
+ * @param filein input file pointer handler
+ * @param fileout outpuf file pointer handler
+ * @param bins the translated binary format from tree
+ * @param lens array containig the lenghs of binaries in bins array
+ * @return the remaining byte to be writen and last bit position to be writen
  */
 uint16_t parse_lstree_file(uint64_t fsize, FILE* filein, FILE* fileout, int64_t* bins, int64_t* lens)
 {
@@ -255,12 +253,12 @@ uint16_t parse_lstree_file(uint64_t fsize, FILE* filein, FILE* fileout, int64_t*
 }
 
 /**
- * @brief: converts the input file to huffman coding and puts to output file
- * @param bins: the paths of byte values into lstree
- * @param lens: the lenghts of bins
- * @param infile: filename of input file
- * @param outfile: filename of output file
- * @param head: pointer to root of lstree tree
+ * Converts the input file to huffman coding and puts to output file
+ * @param bins the paths of byte values into lstree
+ * @param lens the lenghts of bins
+ * @param infile filename of input file
+ * @param outfile filename of output file
+ * @param head pointer to root of lstree tree
  */
 void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const char* outfile, lstree* head)
 {
@@ -310,9 +308,9 @@ void write_dir_lstree(int64_t* bins, int64_t* lens, const char* infile, const ch
 }
 
 /**
- * @brief: compress an archive using the huffman algorithm
- * @param infile: the pathname of input file
- * @param outfile: the pathname of output file
+ * Compress an archive using the huffman algorithm
+ * @param infile the pathname of input file
+ * @param outfile the pathname of output file
  */
 void rw_dir_lstree(const char* infile, const char* outfile)
 {

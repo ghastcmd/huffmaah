@@ -50,10 +50,10 @@ void parse_lstree_string(lstree* head, char* arr, int* i)
 }
 
 /**
- * @brief: creates a progress bar given color, size and leght
- * @param len: the current lenght of bar
- * @param size: the total lenght of bar
- * @param color: color of the bar
+ * Creates a progress bar given color, size and leght
+ * @param len the current lenght of bar
+ * @param size the total lenght of bar
+ * @param color color of the bar
  */
 void upbar(const int len, const int size, const char* color)
 {

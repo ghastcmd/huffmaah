@@ -8,18 +8,18 @@
  * * ******************************** *
  * * ######### LOOKUP TABLE ######### *
  * * ******************************** *
- * @std:    standard token data
- * @stt:    standard token tuple
+ * @param std    standard token data
+ * @param stt    standard token tuple
 
- * @stn:    standard token node
- * @sts:    standard token start
- * @ste:    standard token end
+ * @param stn    standard token node
+ * @param sts    standard token start
+ * @param ste    standard token end
 
- * @stsr:   standard token start resolved
- * @ster:   standard token end resolved
+ * @param stsr   standard token start resolved
+ * @param ster   standard token end resolved
  
- * @val:    value
- * @vals:   values
+ * @param val    value
+ * @param vals   values
  */
 
 /**
@@ -29,10 +29,10 @@
  */
 
 /**
- * @brief: gets two inputs and merge it's integers values and returns is
- * @param sts: first lstree node input
- * @param ste: second lstree node input
- * @ret: the merge of integers of inputs
+ * Gets two inputs and merge it's integers values and returns is
+ * @param sts first lstree node input
+ * @param ste second lstree node input
+ * @return the merge of integers of inputs
  */
 void* merge(const void* sts, const void* ste)
 {
@@ -49,8 +49,8 @@ void* merge(const void* sts, const void* ste)
 }
 
 /**
- * @param std: data used to create new lstree node
- * @ret: pointer to new lstree node
+ * @param std data used to create new lstree node
+ * @return pointer to new lstree node
  */
 void* create(const void* std)
 {
@@ -73,8 +73,8 @@ void* create(const void* std)
 }
 
 /**
- * @param stn: pointer to lstree node
- * @ret: pointe to stn left pointer
+ * @param stn pointer to lstree node
+ * @return pointe to stn left pointer
  */
 void* leftp(const void* stn)
 {
@@ -82,8 +82,8 @@ void* leftp(const void* stn)
 }
 
 /**
- * @param stn: pointer to lstree node
- * @ret: pointe to stn right pointer
+ * @param stn pointer to lstree node
+ * @return pointe to stn right pointer
  */
 void* rightp(const void* stn)
 {
@@ -91,8 +91,8 @@ void* rightp(const void* stn)
 }
 
 /**
- * @param stn: pointer to lstree node
- * @ret: pointe to stn left pointer by reference
+ * @param stn pointer to lstree node
+ * @return pointe to stn left pointer by reference
  */
 void** leftptr(const void* stn)
 {
@@ -100,8 +100,8 @@ void** leftptr(const void* stn)
 }
 
 /**
- * @param stn: pointer to lstree node
- * @ret: pointe to stn right pointer by reference
+ * @param stn pointer to lstree node
+ * @return pointe to stn right pointer by reference
  */
 void** rightptr(const void* stn)
 {
@@ -109,8 +109,8 @@ void** rightptr(const void* stn)
 }
 
 /**
- * @param stn: pointer to lstree node
- * @ret: .val value of input node
+ * @param stn pointer to lstree node
+ * @return .val value of input node
  */
 int64_t get_val_bst(const void* stn)
 {

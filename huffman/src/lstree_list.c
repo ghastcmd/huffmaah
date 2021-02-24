@@ -6,19 +6,19 @@
  * * ******************************** *
  * * ######### LOOKUP TABLE ######### *
  * * ******************************** *
- * @stn:    standard token normal
- * @sts:    standard token start
- * @ste:    standard token end
- * @vals:   values
- * @vals:   values
- * @inters: interfaces
+ * @param stn    standard token normal
+ * @param sts    standard token start
+ * @param ste    standard token end
+ * @param vals   values
+ * @param vals   values
+ * @param inters interfaces
  */
 
 /**
- * @param sts: first lstre node
- * @param ste: first lstree node
- * @param st1: second lstree node
- * @ret: relation between freq of st0 and st1
+ * @param sts first lstre node
+ * @param ste first lstree node
+ * @param st1 second lstree node
+ * @return  relation between freq of st0 and st1
  * negative, zero and positive for 
  * lesser, equals and greater than respectively
  */
@@ -41,11 +41,11 @@ int64_t compare(const void* sts, const void* ste)
 }
 
 /**
- * @brief: similar to compare, but using val element
- * @param sts: first lstre node
- * @param ste: first lstree node
- * @param st1: second lstree node
- * @ret: neg, zero, posi, for lesser, equ, greather
+ * Similar to compare, but using val element
+ * @param sts first lstre node
+ * @param ste first lstree node
+ * @param st1 second lstree node
+ * @return neg, zero, posi, for lesser, equ, greather
  */
 // ! ######################## !
 // ! #####    UNUSED    ##### !
@@ -62,8 +62,8 @@ int64_t equcmp(const void* sts, const void* ste)
 }
 
 /**
- * @param head: node pointer
- * @ret: current freq of node pointer 
+ * @param head node pointer
+ * @return current freq of node pointer 
  */
 int64_t get_freq(const void* stn)
 {
@@ -72,8 +72,8 @@ int64_t get_freq(const void* stn)
 }
 
 /**
- * @param head: node pointer
- * @ret: current val of node pointer 
+ * @param head node pointer
+ * @return current val of node pointer 
  */
 int64_t get_val(const void* stn)
 {
@@ -83,9 +83,9 @@ int64_t get_val(const void* stn)
 }
 
 /**
- * @param vals: tuple of val and freq to new lstree
- * @ret: heap allocated lstree node pointer
- * @ret: returns nullptr if fails
+ * @param vals tuple of val and freq to new lstree
+ * @return heap allocated lstree node pointer
+ * @return returns nullptr if fails
  */
 // ! ######################## !
 // ! #####    UNUSED    ##### !
@@ -115,9 +115,9 @@ int64_t get_val(const void* stn)
 // }
 
 /**
- * @param stn: lstree node pointer
- * @ret: the integer values of lstree
- * @ret: retuns nullptr if fails
+ * @param stn lstree node pointer
+ * @return the integer values of lstree
+ * @return retuns nullptr if fails
  */
 // ! ######################## !
 // ! #####    UNUSED    ##### !
@@ -136,8 +136,8 @@ int64_t get_val(const void* stn)
 // }
 
 /**
- * @param stn: lstree node pointer
- * @ret: next pointer in stn lstree
+ * @param stn lstree node pointer
+ * @return next pointer in stn lstree
  */
 void* nextp(const void* stn)
 {
@@ -147,8 +147,8 @@ void* nextp(const void* stn)
 }
 
 /**
- * @param stn: lstree node pointer
- * @ret: the next pointer by reference of stn
+ * @param stn lstree node pointer
+ * @return the next pointer by reference of stn
  */
 void** nextptr(const void* stn)
 {
@@ -157,8 +157,8 @@ void** nextptr(const void* stn)
 }
 
 /**
- * @brief: frees the internals of lstree node
- * @param stn: lstree node pointer
+ * Frees the internals of lstree node
+ * @param stn lstree node pointer
  */
 void freest(const void* stn)
 {
